@@ -1,0 +1,26 @@
+import styled from 'styled-components';
+
+export const ModalPopup = styled.div`
+  top: 0;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(100, 149, 237, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ModalWrapper = styled.div`
+  padding: 30px 30px;
+  background-color: #fff;
+  min-width: 100px;
+  max-width: 500px;
+  position: relative;
+`;
+
+export const BtnClose = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+`;

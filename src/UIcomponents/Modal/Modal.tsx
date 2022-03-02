@@ -27,14 +27,3 @@ const Modal: React.FC<ModalPropsType> = ({
 };
 
 export default Modal;
-
-{
-  /* <div className="modal__popup">
-      <div className="modal__wrap">
-        <button onClick={handleCloseModal} className="modal__close__btn">
-          X
-        </button>
-        {children}
-      </div>
-    </div> */
-}

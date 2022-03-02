@@ -2,7 +2,7 @@ import React from 'react';
 import { ButtonStyled } from './style';
 
 type ButtonPropsType = {
-  onClick: () => void;
+  onClick?: () => void;
   text: string;
   fullWidth?: boolean;
 };

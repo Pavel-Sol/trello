@@ -2,7 +2,7 @@ import React from 'react';
 import { ButtonOutlinedStyled } from './style';
 
 type ButtonOutlinedPropsType = {
-  onClick: () => void;
+  onClick?: () => void;
   text: string;
   fullWidth?: boolean;
   m?: string;

@@ -13,10 +13,11 @@ export const ModalPopup = styled.div`
 
 export const ModalWrapper = styled.div`
   padding: 30px 30px;
-  background-color: #fff;
+  background-color: #ebecf0;
   min-width: 100px;
   max-width: 500px;
   position: relative;
+  border-radius: 5px;
 `;
 
 export const BtnClose = styled.button`

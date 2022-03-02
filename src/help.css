@@ -1,3 +1,5 @@
 .test {
   height: 100vh;
+  background-color: rgb(72, 178, 240);
+  transition: all 0.3s ease;
 }

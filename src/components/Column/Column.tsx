@@ -20,17 +20,18 @@ const Column: React.FC<ColumnPropsType> = ({ columnInfo, setItialState }) => {
 
   const changeСolumnsTitle = () => {
     const columnsFromLS: Array<IColumn> = Array.from(JSON.parse(localStorage.getItem('columns')!));
-    console.log(columnInfo.id);
-    console.log(
-      columnsFromLS.map((el) => {
-        if (el.id === columnInfo.id) {
-          el.title = columnsTitle;
-          return el;
-        } else {
-          return el;
-        }
-      }),
-    );
+
+    const updatedColumn = columnsFromLS.map((el) => {
+      if (el.id === columnInfo.id) {
+        el.title = columnsTitle;
+        return el;
+      } else {
+        return el;
+      }
+    });
+
+    localStorage.setItem('columns', JSON.stringify(updatedColumn));
+    setItialState(updatedColumn);
   };
 
   return (

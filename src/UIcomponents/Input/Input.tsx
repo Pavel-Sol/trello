@@ -2,16 +2,18 @@ import React from 'react';
 import { InputStyled } from './style';
 
 type InputPropsType = {
-  placeholder: string;
   value: string;
-  fullWidth?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: () => void;
+  placeholder?: string;
+  fullWidth?: boolean;
 };
 
 const Input: React.FC<InputPropsType> = ({
   placeholder,
   value,
   onChange,
+  onBlur,
   fullWidth,
 }: InputPropsType) => {
   return (
@@ -21,6 +23,7 @@ const Input: React.FC<InputPropsType> = ({
         type="text"
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         fullWidth={fullWidth}
       />
     </>

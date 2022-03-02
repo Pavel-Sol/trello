@@ -7,6 +7,12 @@ export const BoardStyled = styled.div`
 export const Container = styled.div`
   max-width: 1500px;
   margin: 0px auto;
-  padding: 0px 15px;
+  padding: 40px 25px;
   height: 100vh;
+`;
+
+export const ColumnsList = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
 `;

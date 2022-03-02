@@ -19,10 +19,10 @@ const UserSettings: React.FC<UserSettingsPropsType> = ({ setValue, handleCloseMo
   };
 
   return (
-    <div>
+    <>
       <Input placeholder="введите имя" value={userName} onChange={handleInput} fullWidth={true} />
       <ButtonOutlined onClick={saveAutorName} text="сохранить" m="10px" />
-    </div>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { IColumn } from '../../models';
+import { ICard, IColumn } from '../../models';
 import { Modal } from '../../UIcomponents/Modal';
 import { Column } from '../Column';
 import { UserSettings } from '../UserSettings';
@@ -16,14 +16,23 @@ const damyData = [
 const Board: React.FC = () => {
   const [modalActive, setModalActive] = useState('');
   const [storedValue, setValue] = useLocalStorage('autorName');
-  const [initialState, setItialState] = useState<Array<IColumn>>([]);
+  const [initialState, setItialState] = useState<Array<IColumn>>([]); //колонки
+  const [cards, setCards] = useState<Array<ICard>>([]); //карточки
 
   useEffect(() => {
+    // вытаскиваем список колонок из LS, если нет, берем готовые
     if (localStorage.getItem('columns')) {
       setItialState(Array.from(JSON.parse(localStorage.getItem('columns')!)));
     } else {
       localStorage.setItem('columns', JSON.stringify(damyData));
       setItialState(damyData);
+    }
+  }, []);
+
+  useEffect(() => {
+    // вытаскиваем список карточек
+    if (localStorage.getItem('cards')) {
+      setCards(Array.from(JSON.parse(localStorage.getItem('cards')!)));
     }
   }, []);
 
@@ -42,7 +51,16 @@ const Board: React.FC = () => {
       <Container>
         <ColumnsList>
           {initialState.map((column) => {
-            return <Column key={column.id} columnInfo={column} setItialState={setItialState} />;
+            return (
+              <Column
+                key={column.id}
+                columns={initialState}
+                columnInfo={column}
+                setItialState={setItialState}
+                cards={cards}
+                setCards={setCards}
+              />
+            );
           })}
         </ColumnsList>
       </Container>

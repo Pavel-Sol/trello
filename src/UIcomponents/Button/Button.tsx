@@ -7,6 +7,14 @@ type ButtonPropsType = {
   fullWidth?: boolean;
 };
 
-export const Button: React.FC<ButtonPropsType> = ({ onClick, text }: ButtonPropsType) => {
-  return <ButtonStyled onClick={onClick}>{text}</ButtonStyled>;
+export const Button: React.FC<ButtonPropsType> = ({
+  onClick,
+  text,
+  fullWidth,
+}: ButtonPropsType) => {
+  return (
+    <ButtonStyled onClick={onClick} fullWidth={fullWidth}>
+      {text}
+    </ButtonStyled>
+  );
 };

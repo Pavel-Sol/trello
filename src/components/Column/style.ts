@@ -5,10 +5,10 @@ export const Container = styled.div`
   padding: 7px;
   border-radius: 3px;
   background-color: #ebecf0;
+  margin: 5px;
 `;
 
-export const ColumnTitle = styled.div`
+export const Row = styled.div`
   width: 100%;
+  margin-bottom: 15px;
 `;
-
-// export const ColumnTitle = styled.p``;

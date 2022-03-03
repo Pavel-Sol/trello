@@ -2,8 +2,12 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { ICard, IColumn } from '../../models';
 import { Button } from '../../UIcomponents/Button';
 import { Input } from '../../UIcomponents/Input';
-import { updateColumnsByCardsId, updateColumnsByTitle } from '../../utils/utils';
-import { Row, Container } from './style';
+import {
+  deleteCardsIdFromColumn,
+  updateColumnsByCardsId,
+  updateColumnsByTitle,
+} from '../../utils/utils';
+import { Row, Container, CardItem, DeleteBtn } from './style';
 
 type ColumnPropsType = {
   columnInfo: IColumn;
@@ -56,7 +60,18 @@ const Column: React.FC<ColumnPropsType> = ({
     setNewCardTitle('');
   };
 
-  console.log(cards);
+  const deleteCard = (cardId: number) => {
+    // удаление новой карточки
+    const updatedColumn = deleteCardsIdFromColumn(columnInfo, columns, cardId);
+
+    localStorage.setItem('columns', JSON.stringify(updatedColumn));
+    setItialState(updatedColumn);
+
+    const updatedCardList = [...cards].filter((el) => el.id !== cardId);
+
+    localStorage.setItem('cards', JSON.stringify(updatedCardList));
+    setCards(updatedCardList);
+  };
 
   return (
     <Container>
@@ -71,7 +86,12 @@ const Column: React.FC<ColumnPropsType> = ({
         {cards?.length &&
           cards
             .filter((e) => columnInfo.cardIds.includes(e.id))
-            .map((e) => <div key={e.id}>{e.title}</div>)}
+            .map((e) => (
+              <CardItem key={e.id}>
+                <DeleteBtn onClick={() => deleteCard(e.id)}>x</DeleteBtn>
+                <span>{e.title}</span>
+              </CardItem>
+            ))}
       </Row>
     </Container>
   );

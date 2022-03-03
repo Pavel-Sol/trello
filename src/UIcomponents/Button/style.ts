@@ -20,6 +20,7 @@ export const ButtonOutlinedStyled = styled('button')<{
 
 export const ButtonStyled = styled('button')<{
   fullWidth?: boolean;
+  m?: string;
 }>`
   ${(props) => (props.fullWidth ? `width: 100%` : `auto`)};
   height: 32px;
@@ -28,6 +29,7 @@ export const ButtonStyled = styled('button')<{
   transition: all 0.3s ease;
   padding: 0 5px;
   color: #5e6c84;
+  margin: 5px 0px;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.2);

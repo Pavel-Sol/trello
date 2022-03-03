@@ -14,5 +14,4 @@ export const Container = styled.div`
 export const ColumnsList = styled.div`
   width: 100%;
   display: flex;
-  align-items: center;
 `;

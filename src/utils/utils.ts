@@ -33,3 +33,20 @@ export const updateColumnsByCardsId = (
 
   return updatedColumn;
 };
+
+export const deleteCardsIdFromColumn = (
+  columnInfo: IColumn,
+  columns: Array<IColumn>,
+  cardId: number,
+) => {
+  const updatedColumn = [...columns].map((el) => {
+    if (el.id === columnInfo.id) {
+      el.cardIds = el.cardIds.filter((el) => el !== cardId);
+      return el;
+    } else {
+      return el;
+    }
+  });
+
+  return updatedColumn;
+};

@@ -5,15 +5,17 @@ type ButtonPropsType = {
   onClick?: () => void;
   text: string;
   fullWidth?: boolean;
+  m?: string;
 };
 
 export const Button: React.FC<ButtonPropsType> = ({
   onClick,
   text,
   fullWidth,
+  m,
 }: ButtonPropsType) => {
   return (
-    <ButtonStyled onClick={onClick} fullWidth={fullWidth}>
+    <ButtonStyled onClick={onClick} fullWidth={fullWidth} m={m}>
       {text}
     </ButtonStyled>
   );

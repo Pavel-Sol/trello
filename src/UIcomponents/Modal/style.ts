@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const ModalPopup = styled.div`
   top: 0;
   position: fixed;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   background-color: rgba(100, 149, 237, 0.8);
   display: flex;

@@ -15,6 +15,8 @@ type ColumnPropsType = {
   cards: Array<ICard>;
   setCards: Dispatch<SetStateAction<ICard[]>>;
   columns: Array<IColumn>;
+  setCurrentCardDetails: Dispatch<SetStateAction<ICard | null>>;
+  setModalActive: Dispatch<SetStateAction<string>>;
 };
 
 const Column: React.FC<ColumnPropsType> = ({
@@ -23,6 +25,8 @@ const Column: React.FC<ColumnPropsType> = ({
   cards,
   setCards,
   columns,
+  setCurrentCardDetails,
+  setModalActive,
 }) => {
   const [columnsTitle, setColumnsTitle] = useState('');
   const [newCardTitle, setNewCardTitle] = useState('');
@@ -33,6 +37,11 @@ const Column: React.FC<ColumnPropsType> = ({
 
   const handleNewCardTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewCardTitle(e.target.value);
+  };
+
+  const handleClickOnCardItem = (e: ICard) => {
+    setCurrentCardDetails(e);
+    setModalActive('CARD_DETAILS');
   };
 
   useEffect(() => {
@@ -48,7 +57,12 @@ const Column: React.FC<ColumnPropsType> = ({
 
   const addNewCard = () => {
     // добавление новой карточки
-    const newCard = { id: Date.now(), title: newCardTitle, commentIds: [] };
+    const newCard = {
+      id: Date.now(),
+      title: newCardTitle,
+      commentIds: [],
+      columnsTitle: columnInfo.title,
+    };
 
     const updatedColumn = updateColumnsByCardsId(columnInfo, columns, newCard.id);
 
@@ -87,7 +101,7 @@ const Column: React.FC<ColumnPropsType> = ({
           cards
             .filter((e) => columnInfo.cardIds.includes(e.id))
             .map((e) => (
-              <CardItem key={e.id}>
+              <CardItem key={e.id} onClick={() => handleClickOnCardItem(e)}>
                 <DeleteBtn onClick={() => deleteCard(e.id)}>x</DeleteBtn>
                 <span>{e.title}</span>
               </CardItem>

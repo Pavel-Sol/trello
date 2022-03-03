@@ -25,6 +25,7 @@ export const CardItem = styled.div`
   margin: 5px 0px;
   border-radius: 2px;
   position: relative;
+  cursor: pointer;
 `;
 
 export const DeleteBtn = styled.div`

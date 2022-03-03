@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { ICard, IColumn } from '../../models';
 import { Modal } from '../../UIcomponents/Modal';
+import { CardDetails } from '../CardDetails';
 import { Column } from '../Column';
 import { UserSettings } from '../UserSettings';
 import { BoardStyled, ColumnsList, Container } from './style';
@@ -15,6 +16,7 @@ const damyData = [
 
 const Board: React.FC = () => {
   const [modalActive, setModalActive] = useState('');
+  const [currentCardDetails, setCurrentCardDetails] = useState<ICard | null>(null);
   const [storedValue, setValue] = useLocalStorage('autorName');
   const [initialState, setItialState] = useState<Array<IColumn>>([]); //колонки
   const [cards, setCards] = useState<Array<ICard>>([]); //карточки
@@ -46,6 +48,19 @@ const Board: React.FC = () => {
     }
   }, [storedValue]);
 
+  const updateCardList = (updatedCard: ICard) => {
+    const updatedCardList = cards.map((el) => {
+      if (el.id === updatedCard.id) {
+        return updatedCard;
+      } else {
+        return el;
+      }
+    });
+
+    localStorage.setItem('cards', JSON.stringify(updatedCardList));
+    setCards(updatedCardList);
+  };
+
   return (
     <BoardStyled>
       <Container>
@@ -59,6 +74,8 @@ const Board: React.FC = () => {
                 setItialState={setItialState}
                 cards={cards}
                 setCards={setCards}
+                setCurrentCardDetails={setCurrentCardDetails}
+                setModalActive={setModalActive}
               />
             );
           })}
@@ -66,6 +83,9 @@ const Board: React.FC = () => {
       </Container>
       <Modal visible={modalActive === 'USER_SETTING'} handleCloseModal={handleCloseModal}>
         <UserSettings setValue={setValue} handleCloseModal={handleCloseModal} />
+      </Modal>
+      <Modal visible={modalActive === 'CARD_DETAILS'} handleCloseModal={handleCloseModal}>
+        <CardDetails currentCardDetails={currentCardDetails} updateCardList={updateCardList} />
       </Modal>
     </BoardStyled>
   );

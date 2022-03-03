@@ -6,6 +6,7 @@ export type IComment = {
 export type ICard = {
   id: number;
   title: string;
+  columnsTitle: string;
   desc?: string;
   commentIds?: Array<string>;
 };

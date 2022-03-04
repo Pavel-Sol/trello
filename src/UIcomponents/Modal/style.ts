@@ -12,6 +12,8 @@ export const ModalPopup = styled.div`
 `;
 
 export const ModalWrapper = styled.div`
+  max-height: 600px;
+  overflow-y: auto;
   padding: 30px 30px;
   background-color: #ebecf0;
   min-width: 100px;

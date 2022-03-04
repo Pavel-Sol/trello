@@ -20,7 +20,7 @@ const Board: React.FC = () => {
   const [currentCard, setCurrentCard] = useState<ICard | null>(null);
   const [columns, setColumns] = useState<Array<IColumn>>([]); //колонки
   const [cards, setCards] = useState<Array<ICard>>([]); //карточки
-  // const [comments, setComments] = useState<Array<IComment>>([]); //комментарии
+  const [comments, setComments] = useState<Array<IComment>>([]); //комментарии
 
   useEffect(() => {
     // вытаскиваем список колонок из LS, если нет, берем готовые
@@ -36,6 +36,13 @@ const Board: React.FC = () => {
     // вытаскиваем список карточек
     if (localStorage.getItem('cards')) {
       setCards(Array.from(JSON.parse(localStorage.getItem('cards')!)));
+    }
+  }, []);
+
+  useEffect(() => {
+    // вытаскиваем список комментариев
+    if (localStorage.getItem('comments')) {
+      setComments(Array.from(JSON.parse(localStorage.getItem('comments')!)));
     }
   }, []);
 
@@ -64,11 +71,7 @@ const Board: React.FC = () => {
   };
 
   const addCardInCardList = (card: ICard) => {
-    console.log(cards);
-    console.log(card);
-
     const updatedCardList = [card, ...cards];
-    console.log(updatedCardList);
 
     localStorage.setItem('cards', JSON.stringify(updatedCardList));
     setCards(updatedCardList);
@@ -89,6 +92,29 @@ const Board: React.FC = () => {
 
     localStorage.setItem('cards', JSON.stringify(updatedCardList));
     setCards(updatedCardList);
+  };
+
+  const addCommentToComments = (comment: IComment) => {
+    const updatedCommentList = [comment, ...comments];
+
+    localStorage.setItem('comments', JSON.stringify(updatedCommentList));
+    setComments(updatedCommentList);
+  };
+
+  const updateComments = (updatedComment: IComment) => {
+    const updatedCommentList = comments.map((el) => {
+      return el.id === updatedComment.id ? updatedComment : el;
+    });
+
+    localStorage.setItem('comments', JSON.stringify(updatedCommentList));
+    setComments(updatedCommentList);
+  };
+
+  const deleteCommentFromComments = (commentId: number) => {
+    const updatedCommentList = comments.filter((el) => el.id !== commentId);
+
+    localStorage.setItem('comments', JSON.stringify(updatedCommentList));
+    setComments(updatedCommentList);
   };
 
   return (
@@ -114,7 +140,15 @@ const Board: React.FC = () => {
         <UserSettings setValue={setValue} handleCloseModal={handleCloseModal} />
       </Modal>
       <Modal visible={modalActive === 'CARD_DETAILS'} handleCloseModal={handleCloseModal}>
-        <CardDetails currentCard={currentCard} columns={columns} updateCardList={updateCardList} />
+        <CardDetails
+          currentCard={currentCard}
+          columns={columns}
+          comments={comments}
+          updateCardList={updateCardList}
+          addCommentToComments={addCommentToComments}
+          updateComments={updateComments}
+          deleteCommentFromComments={deleteCommentFromComments}
+        />
       </Modal>
     </BoardStyled>
   );

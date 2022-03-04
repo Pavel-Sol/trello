@@ -5,6 +5,7 @@ type InputPropsType = {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: () => void;
+  onFocus?: () => void;
   placeholder?: string;
   fullWidth?: boolean;
 };
@@ -14,6 +15,7 @@ const Input: React.FC<InputPropsType> = ({
   value,
   onChange,
   onBlur,
+  onFocus,
   fullWidth,
 }: InputPropsType) => {
   return (
@@ -24,6 +26,7 @@ const Input: React.FC<InputPropsType> = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
+        onFocus={onFocus}
         fullWidth={fullWidth}
       />
     </>

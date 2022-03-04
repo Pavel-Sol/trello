@@ -23,6 +23,7 @@ export const ButtonStyled = styled('button')<{
   m?: string;
 }>`
   ${(props) => (props.fullWidth ? `width: 100%` : `auto`)};
+  ${(props) => (props.m ? `margin: ${props.m}` : `margin : 0`)};
   height: 32px;
   border-radius: 3px;
   border: none;

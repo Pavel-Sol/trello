@@ -1,18 +1,17 @@
 export type IComment = {
   id: number;
+  cardId: number;
   text: string;
 };
 
 export type ICard = {
   id: number;
+  columnId: number;
   title: string;
-  columnsTitle: string;
   desc?: string;
-  commentIds?: Array<number>;
 };
 
 export type IColumn = {
   id: number;
   title: string;
-  cardIds: Array<number>;
 };

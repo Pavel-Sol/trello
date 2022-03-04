@@ -8,27 +8,27 @@ import { UserSettings } from '../UserSettings';
 import { BoardStyled, ColumnsList, Container } from './style';
 
 const damyData = [
-  { id: 0, title: 'TODO', cardIds: [] },
-  { id: 1, title: 'In Progress', cardIds: [] },
-  { id: 2, title: 'Testing', cardIds: [] },
-  { id: 3, title: 'Done', cardIds: [] },
+  { id: 0, title: 'TODO' },
+  { id: 1, title: 'In Progress' },
+  { id: 2, title: 'Testing' },
+  { id: 3, title: 'Done' },
 ];
 
 const Board: React.FC = () => {
   const [modalActive, setModalActive] = useState('');
-  const [currentCardDetails, setCurrentCardDetails] = useState<ICard | null>(null);
   const [storedValue, setValue] = useLocalStorage('autorName');
-  const [initialState, setItialState] = useState<Array<IColumn>>([]); //колонки
+  const [currentCard, setCurrentCard] = useState<ICard | null>(null);
+  const [columns, setColumns] = useState<Array<IColumn>>([]); //колонки
   const [cards, setCards] = useState<Array<ICard>>([]); //карточки
-  const [comments, setComments] = useState<Array<IComment>>([]); //комментарии
+  // const [comments, setComments] = useState<Array<IComment>>([]); //комментарии
 
   useEffect(() => {
     // вытаскиваем список колонок из LS, если нет, берем готовые
     if (localStorage.getItem('columns')) {
-      setItialState(Array.from(JSON.parse(localStorage.getItem('columns')!)));
+      setColumns(Array.from(JSON.parse(localStorage.getItem('columns')!)));
     } else {
       localStorage.setItem('columns', JSON.stringify(damyData));
-      setItialState(damyData);
+      setColumns(damyData);
     }
   }, []);
 
@@ -36,13 +36,6 @@ const Board: React.FC = () => {
     // вытаскиваем список карточек
     if (localStorage.getItem('cards')) {
       setCards(Array.from(JSON.parse(localStorage.getItem('cards')!)));
-    }
-  }, []);
-
-  useEffect(() => {
-    // вытаскиваем список комментариев
-    if (localStorage.getItem('coments')) {
-      setComments(Array.from(JSON.parse(localStorage.getItem('coments')!)));
     }
   }, []);
 
@@ -56,6 +49,38 @@ const Board: React.FC = () => {
     }
   }, [storedValue]);
 
+  const selectCurrentCard = (card: ICard) => {
+    setCurrentCard(card);
+    setModalActive('CARD_DETAILS');
+  };
+
+  const updateColumns = (updatedColumn: IColumn) => {
+    const updatedColumnsList = columns.map((el) => {
+      return el.id === updatedColumn.id ? updatedColumn : el;
+    });
+
+    localStorage.setItem('columns', JSON.stringify(updatedColumnsList));
+    setColumns(updatedColumnsList);
+  };
+
+  const addCardInCardList = (card: ICard) => {
+    console.log(cards);
+    console.log(card);
+
+    const updatedCardList = [card, ...cards];
+    console.log(updatedCardList);
+
+    localStorage.setItem('cards', JSON.stringify(updatedCardList));
+    setCards(updatedCardList);
+  };
+
+  const deleteCardFromCardList = (cardId: number) => {
+    const updatedCardList = cards.filter((el) => el.id !== cardId);
+
+    localStorage.setItem('cards', JSON.stringify(updatedCardList));
+    setCards(updatedCardList);
+  };
+
   const updateCardList = (updatedCard: ICard) => {
     const updatedCardList = cards.map((el) => {
       return el.id === updatedCard.id ? updatedCard : el;
@@ -65,23 +90,20 @@ const Board: React.FC = () => {
     setCards(updatedCardList);
   };
 
-  // const addComment = (newComment) => {};
-
   return (
     <BoardStyled>
       <Container>
         <ColumnsList>
-          {initialState.map((column) => {
+          {columns.map((column) => {
             return (
               <Column
                 key={column.id}
-                columns={initialState}
-                columnInfo={column}
-                setItialState={setItialState}
+                columnData={column}
+                updateColumns={updateColumns}
+                addCardInCardList={addCardInCardList}
+                deleteCardFromCardList={deleteCardFromCardList}
+                selectCurrentCard={selectCurrentCard}
                 cards={cards}
-                setCards={setCards}
-                setCurrentCardDetails={setCurrentCardDetails}
-                setModalActive={setModalActive}
               />
             );
           })}
@@ -91,11 +113,7 @@ const Board: React.FC = () => {
         <UserSettings setValue={setValue} handleCloseModal={handleCloseModal} />
       </Modal>
       <Modal visible={modalActive === 'CARD_DETAILS'} handleCloseModal={handleCloseModal}>
-        <CardDetails
-          currentCardDetails={currentCardDetails}
-          updateCardList={updateCardList}
-          comments={comments}
-        />
+        <CardDetails currentCard={currentCard} columns={columns} updateCardList={updateCardList} />
       </Modal>
     </BoardStyled>
   );

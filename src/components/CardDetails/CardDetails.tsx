@@ -1,26 +1,18 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import { ICard, IComment } from '../../models';
+import React, { useState } from 'react';
+import { ICard, IColumn } from '../../models';
 import { Input } from '../../UIcomponents/Input';
 import { Container, Row, SubTitle } from './style';
 
 type CardDetailsPropsType = {
-  currentCardDetails: ICard | null;
+  currentCard: ICard | null;
+  columns: Array<IColumn>;
   updateCardList: (updatedCard: ICard) => void;
-  comments: Array<IComment>;
 };
 
-const CardDetails: React.FC<CardDetailsPropsType> = ({
-  currentCardDetails,
-  comments,
-  updateCardList,
-}: CardDetailsPropsType) => {
-  console.log(currentCardDetails);
-  const [cardTitle, setCardTitle] = useState(currentCardDetails?.title || '-');
-  const [cardDesc, setCardDesc] = useState(currentCardDetails?.desc || '');
-  const [commentText, setCommentText] = useState('');
-  const currentCommentsList = comments.filter((el) =>
-    currentCardDetails?.commentIds?.includes(el.id),
-  );
+const CardDetails: React.FC<CardDetailsPropsType> = ({ currentCard, columns, updateCardList }) => {
+  const columnTitle = columns.filter((el) => el.id === currentCard?.columnId)[0].title;
+  const [cardTitle, setCardTitle] = useState(currentCard?.title || '-');
+  const [cardDesc, setCardDesc] = useState(currentCard?.desc || '');
 
   const handleCardTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCardTitle(e.target.value);
@@ -30,22 +22,18 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
     setCardDesc(e.target.value);
   };
 
-  const handleCommentText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCommentText(e.target.value);
-  };
-
-  const changeCardTitle = () => {
-    if (currentCardDetails !== null) {
-      const updatetCard = { ...currentCardDetails };
+  const saveCardTitle = () => {
+    if (currentCard !== null) {
+      const updatetCard = { ...currentCard };
       updatetCard.title = cardTitle;
 
       updateCardList(updatetCard);
     }
   };
 
-  const changeCardDesc = () => {
-    if (currentCardDetails !== null) {
-      const updatetCard = { ...currentCardDetails };
+  const saveCardDesc = () => {
+    if (currentCard !== null) {
+      const updatetCard = { ...currentCard };
       updatetCard.desc = cardDesc;
 
       updateCardList(updatetCard);
@@ -55,24 +43,15 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
   return (
     <Container>
       <Row>
-        <SubTitle>колонка: {currentCardDetails?.columnsTitle}</SubTitle>
+        <SubTitle>колонка: {columnTitle}</SubTitle>
       </Row>
       <Row>
         <SubTitle>Название карточки</SubTitle>
-        <Input value={cardTitle} onChange={(e) => handleCardTitle(e)} onBlur={changeCardTitle} />
+        <Input value={cardTitle} onChange={(e) => handleCardTitle(e)} onBlur={saveCardTitle} />
       </Row>
       <Row>
         <SubTitle>описание карточки</SubTitle>
-        <Input value={cardDesc} onChange={(e) => handleCardDesc(e)} onBlur={changeCardDesc} />
-      </Row>
-      <Row>
-        <SubTitle>комментарии</SubTitle>
-        <Input value={commentText} onChange={(e) => handleCommentText(e)} />
-        <div>
-          {currentCommentsList.map((el) => (
-            <div key={el.id}>{el.text}</div>
-          ))}
-        </div>
+        <Input value={cardDesc} onChange={(e) => handleCardDesc(e)} onBlur={saveCardDesc} />
       </Row>
     </Container>
   );

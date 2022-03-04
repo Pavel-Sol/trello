@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { ICard, IColumn } from '../../models';
+import { ICard, IColumn, IComment } from '../../models';
 import { Modal } from '../../UIcomponents/Modal';
 import { CardDetails } from '../CardDetails';
 import { Column } from '../Column';
@@ -20,6 +20,7 @@ const Board: React.FC = () => {
   const [storedValue, setValue] = useLocalStorage('autorName');
   const [initialState, setItialState] = useState<Array<IColumn>>([]); //колонки
   const [cards, setCards] = useState<Array<ICard>>([]); //карточки
+  const [comments, setComments] = useState<Array<IComment>>([]); //комментарии
 
   useEffect(() => {
     // вытаскиваем список колонок из LS, если нет, берем готовые
@@ -38,6 +39,13 @@ const Board: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // вытаскиваем список комментариев
+    if (localStorage.getItem('coments')) {
+      setComments(Array.from(JSON.parse(localStorage.getItem('coments')!)));
+    }
+  }, []);
+
   const handleCloseModal = (): void => {
     setModalActive('');
   };
@@ -50,16 +58,14 @@ const Board: React.FC = () => {
 
   const updateCardList = (updatedCard: ICard) => {
     const updatedCardList = cards.map((el) => {
-      if (el.id === updatedCard.id) {
-        return updatedCard;
-      } else {
-        return el;
-      }
+      return el.id === updatedCard.id ? updatedCard : el;
     });
 
     localStorage.setItem('cards', JSON.stringify(updatedCardList));
     setCards(updatedCardList);
   };
+
+  // const addComment = (newComment) => {};
 
   return (
     <BoardStyled>
@@ -85,7 +91,11 @@ const Board: React.FC = () => {
         <UserSettings setValue={setValue} handleCloseModal={handleCloseModal} />
       </Modal>
       <Modal visible={modalActive === 'CARD_DETAILS'} handleCloseModal={handleCloseModal}>
-        <CardDetails currentCardDetails={currentCardDetails} updateCardList={updateCardList} />
+        <CardDetails
+          currentCardDetails={currentCardDetails}
+          updateCardList={updateCardList}
+          comments={comments}
+        />
       </Modal>
     </BoardStyled>
   );

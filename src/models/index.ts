@@ -1,6 +1,6 @@
 export type IComment = {
-  id: string;
-  desc: string;
+  id: number;
+  text: string;
 };
 
 export type ICard = {
@@ -8,7 +8,7 @@ export type ICard = {
   title: string;
   columnsTitle: string;
   desc?: string;
-  commentIds?: Array<string>;
+  commentIds?: Array<number>;
 };
 
 export type IColumn = {

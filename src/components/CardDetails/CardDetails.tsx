@@ -1,20 +1,26 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { ICard } from '../../models';
+import { ICard, IComment } from '../../models';
 import { Input } from '../../UIcomponents/Input';
 import { Container, Row, SubTitle } from './style';
 
 type CardDetailsPropsType = {
   currentCardDetails: ICard | null;
   updateCardList: (updatedCard: ICard) => void;
+  comments: Array<IComment>;
 };
 
 const CardDetails: React.FC<CardDetailsPropsType> = ({
   currentCardDetails,
+  comments,
   updateCardList,
 }: CardDetailsPropsType) => {
   console.log(currentCardDetails);
   const [cardTitle, setCardTitle] = useState(currentCardDetails?.title || '-');
   const [cardDesc, setCardDesc] = useState(currentCardDetails?.desc || '');
+  const [commentText, setCommentText] = useState('');
+  const currentCommentsList = comments.filter((el) =>
+    currentCardDetails?.commentIds?.includes(el.id),
+  );
 
   const handleCardTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCardTitle(e.target.value);
@@ -22,6 +28,10 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
 
   const handleCardDesc = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCardDesc(e.target.value);
+  };
+
+  const handleCommentText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCommentText(e.target.value);
   };
 
   const changeCardTitle = () => {
@@ -57,6 +67,12 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
       </Row>
       <Row>
         <SubTitle>комментарии</SubTitle>
+        <Input value={commentText} onChange={(e) => handleCommentText(e)} />
+        <div>
+          {currentCommentsList.map((el) => (
+            <div key={el.id}>{el.text}</div>
+          ))}
+        </div>
       </Row>
     </Container>
   );

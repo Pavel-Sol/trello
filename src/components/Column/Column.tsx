@@ -10,7 +10,7 @@ type ColumnPropsType = {
   cards: Array<ICard>;
   updateColumns: (updatedColumn: IColumn) => void;
   addCardInCardList: (card: ICard) => void;
-  deleteCardFromCardList: (cardId: number) => void;
+  deleteCardFromCardList: (event: React.MouseEvent<HTMLElement>, cardId: number) => void;
   selectCurrentCard: (card: ICard) => void;
 };
 
@@ -62,10 +62,15 @@ const Column: React.FC<ColumnPropsType> = ({
         {cards?.length &&
           cards
             .filter((el) => el.columnId === columnData.id)
-            .map((e) => (
-              <CardItem key={e.id} onClick={() => selectCurrentCard(e)}>
-                <DeleteBtn onClick={() => deleteCardFromCardList(e.id)}>x</DeleteBtn>
-                <span>{e.title}</span>
+            .map((elem) => (
+              <CardItem key={elem.id} onClick={() => selectCurrentCard(elem)}>
+                <DeleteBtn
+                  onClick={(event: React.MouseEvent<HTMLElement>) =>
+                    deleteCardFromCardList(event, elem.id)
+                  }>
+                  x
+                </DeleteBtn>
+                <span>{elem.title}</span>
               </CardItem>
             ))}
       </Row>

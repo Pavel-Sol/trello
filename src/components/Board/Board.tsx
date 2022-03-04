@@ -74,11 +74,12 @@ const Board: React.FC = () => {
     setCards(updatedCardList);
   };
 
-  const deleteCardFromCardList = (cardId: number) => {
+  const deleteCardFromCardList = (event: React.MouseEvent<HTMLElement>, cardId: number) => {
     const updatedCardList = cards.filter((el) => el.id !== cardId);
 
     localStorage.setItem('cards', JSON.stringify(updatedCardList));
     setCards(updatedCardList);
+    event.stopPropagation();
   };
 
   const updateCardList = (updatedCard: ICard) => {

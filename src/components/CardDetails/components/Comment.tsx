@@ -23,6 +23,10 @@ const Comment: React.FC<CommentPropsType> = ({
   };
 
   const saveCommentText = () => {
+    if (!commentText) {
+      setCommentText(commentData.text);
+      return;
+    }
     const updatedComment = { ...commentData, text: commentText };
     updateComments(updatedComment);
   };

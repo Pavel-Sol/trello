@@ -34,11 +34,16 @@ const Column: React.FC<ColumnPropsType> = ({
   };
 
   const saveColumnsTitle = () => {
+    if (!columnTitle) {
+      setColumnTitle(columnData.title);
+      return;
+    }
     const updatedColumn = { ...columnData, title: columnTitle };
     updateColumns(updatedColumn);
   };
 
   const addNewCard = () => {
+    if (!cardTitle) return;
     const newCard = {
       id: Date.now(),
       columnId: columnData.id,

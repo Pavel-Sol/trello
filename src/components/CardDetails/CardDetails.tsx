@@ -31,8 +31,6 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
   const [cardDesc, setCardDesc] = useState(currentCard?.desc || '');
   const [newCommentText, setNewCommentText] = useState('');
 
-  // console.log(autor);
-
   const handleCardTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCardTitle(e.target.value);
   };
@@ -46,6 +44,11 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
   };
 
   const saveCardTitle = () => {
+    if (!cardTitle) {
+      setCardTitle(currentCard?.title || '');
+      return;
+    }
+
     if (currentCard !== null) {
       const updatetCard = { ...currentCard };
       updatetCard.title = cardTitle;

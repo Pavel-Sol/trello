@@ -21,3 +21,9 @@ export const SubTitle = styled.h3`
 export const BtnWrap = styled.span`
   margin-left: 10px;
 `;
+
+export const SmallText = styled.p`
+  margin-bottom: 2px;
+  font-size: 12px;
+  color: #5e6c84;
+`;

@@ -6,6 +6,7 @@ import Comment from './components/Comment';
 import { BtnWrap, Container, Row, SubTitle } from './style';
 
 type CardDetailsPropsType = {
+  autor: string;
   currentCard: ICard | null;
   columns: Array<IColumn>;
   comments: Array<IComment>;
@@ -16,6 +17,7 @@ type CardDetailsPropsType = {
 };
 
 const CardDetails: React.FC<CardDetailsPropsType> = ({
+  autor,
   currentCard,
   columns,
   comments,
@@ -28,6 +30,8 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
   const [cardTitle, setCardTitle] = useState(currentCard?.title || '-');
   const [cardDesc, setCardDesc] = useState(currentCard?.desc || '');
   const [newCommentText, setNewCommentText] = useState('');
+
+  // console.log(autor);
 
   const handleCardTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCardTitle(e.target.value);
@@ -76,6 +80,9 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
         <SubTitle>колонка: {columnTitle}</SubTitle>
       </Row>
       <Row>
+        <SubTitle>автор: {autor}</SubTitle>
+      </Row>
+      <Row>
         <SubTitle>Название карточки</SubTitle>
         <Input value={cardTitle} onChange={(e) => handleCardTitle(e)} onBlur={saveCardTitle} />
       </Row>
@@ -98,6 +105,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
         {comments.map((el) => {
           return (
             <Comment
+              autor={autor}
               key={el.id}
               commentData={el}
               updateComments={updateComments}

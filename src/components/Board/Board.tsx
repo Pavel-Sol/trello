@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { ICard, IColumn, IComment } from '../../models';
 import { Modal } from '../../UIcomponents/Modal';
 import { CardDetails } from '../CardDetails';
@@ -49,7 +48,7 @@ const Board: React.FC = () => {
   useEffect(() => {
     // вытаскиваем имя автора
     if (localStorage.getItem('autor')) {
-      setAutor(JSON.parse(localStorage.getItem('comments')!));
+      setAutor(JSON.parse(localStorage.getItem('autor')!));
     } else {
       setModalActive('USER_SETTING');
     }
@@ -144,6 +143,7 @@ const Board: React.FC = () => {
       </Modal>
       <Modal visible={modalActive === 'CARD_DETAILS'} handleCloseModal={handleCloseModal}>
         <CardDetails
+          autor={autor}
           currentCard={currentCard}
           columns={columns}
           comments={comments}

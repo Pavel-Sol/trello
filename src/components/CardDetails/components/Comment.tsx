@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { IComment } from '../../../models';
 import { Button } from '../../../UIcomponents/Button';
 import { Input } from '../../../UIcomponents/Input';
-import { Row } from '../style';
+import { Row, SmallText } from '../style';
 
 type CommentPropsType = {
+  autor: string;
   commentData: IComment;
   updateComments: (updatedComment: IComment) => void;
   deleteCommentFromComments: (commentId: number) => void;
 };
 
 const Comment: React.FC<CommentPropsType> = ({
+  autor,
   commentData,
   updateComments,
   deleteCommentFromComments,
@@ -27,7 +29,8 @@ const Comment: React.FC<CommentPropsType> = ({
 
   return (
     <Row>
-      <Input value={commentText} onChange={handleCommentText} />
+      <SmallText>{autor}</SmallText>
+      <Input value={commentText} onChange={handleCommentText} fullWidth={true} />
       <Row>
         <Button text="удалить" onClick={() => deleteCommentFromComments(commentData.id)} />
         <Button text="сохранить изменения" onClick={saveCommentText} />

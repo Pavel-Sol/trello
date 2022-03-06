@@ -3,19 +3,22 @@ import { ButtonOutlined } from '../../UIcomponents/Button';
 import { Input } from '../../UIcomponents/Input';
 
 type UserSettingsPropsType = {
-  setValue: (userName: string) => void;
+  setAutor: (userName: string) => void;
   handleCloseModal: () => void;
 };
 
-const UserSettings: React.FC<UserSettingsPropsType> = ({ setValue, handleCloseModal }) => {
+const UserSettings: React.FC<UserSettingsPropsType> = ({ setAutor, handleCloseModal }) => {
   const [userName, setUserName] = useState('');
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
   };
 
   const saveAutorName = () => {
-    setValue(userName);
-    if (userName) handleCloseModal();
+    if (userName) {
+      setAutor(userName);
+      localStorage.setItem('autor', JSON.stringify(userName));
+      handleCloseModal();
+    }
   };
 
   return (

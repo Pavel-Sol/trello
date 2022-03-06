@@ -16,7 +16,7 @@ const damyData = [
 
 const Board: React.FC = () => {
   const [modalActive, setModalActive] = useState('');
-  const [storedValue, setValue] = useLocalStorage('autorName');
+  const [autor, setAutor] = useState('');
   const [currentCard, setCurrentCard] = useState<ICard | null>(null);
   const [columns, setColumns] = useState<Array<IColumn>>([]); //колонки
   const [cards, setCards] = useState<Array<ICard>>([]); //карточки
@@ -46,15 +46,18 @@ const Board: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // вытаскиваем имя автора
+    if (localStorage.getItem('autor')) {
+      setAutor(JSON.parse(localStorage.getItem('comments')!));
+    } else {
+      setModalActive('USER_SETTING');
+    }
+  }, []);
+
   const handleCloseModal = (): void => {
     setModalActive('');
   };
-
-  useEffect(() => {
-    if (!storedValue) {
-      setModalActive('USER_SETTING');
-    }
-  }, [storedValue]);
 
   const selectCurrentCard = (card: ICard) => {
     setCurrentCard(card);
@@ -137,7 +140,7 @@ const Board: React.FC = () => {
         </ColumnsList>
       </Container>
       <Modal visible={modalActive === 'USER_SETTING'} handleCloseModal={handleCloseModal}>
-        <UserSettings setValue={setValue} handleCloseModal={handleCloseModal} />
+        <UserSettings setAutor={setAutor} handleCloseModal={handleCloseModal} />
       </Modal>
       <Modal visible={modalActive === 'CARD_DETAILS'} handleCloseModal={handleCloseModal}>
         <CardDetails

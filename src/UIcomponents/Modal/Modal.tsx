@@ -1,5 +1,6 @@
 import React from 'react';
-import { BtnClose, ModalPopup, ModalWrapper } from './style';
+import { GrClose } from 'react-icons/gr';
+import { BtnClose, ModalContent, ModalPopup, ModalWrapper } from './style';
 
 type ModalPropsType = {
   visible: boolean;
@@ -17,10 +18,12 @@ const Modal: React.FC<ModalPropsType> = ({
   }
 
   return (
-    <ModalPopup>
-      <ModalWrapper>
-        <BtnClose onClick={handleCloseModal}>закрыть</BtnClose>
-        {children}
+    <ModalPopup onClick={handleCloseModal}>
+      <ModalWrapper onClick={(e) => e.stopPropagation()}>
+        <BtnClose onClick={handleCloseModal}>
+          <GrClose />
+        </BtnClose>
+        <ModalContent>{children}</ModalContent>
       </ModalWrapper>
     </ModalPopup>
   );

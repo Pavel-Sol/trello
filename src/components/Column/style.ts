@@ -30,8 +30,8 @@ export const CardItem = styled.div`
 
 export const DeleteBtn = styled.div`
   cursor: pointer;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background-color: rgb(238, 243, 247);
   position: absolute;

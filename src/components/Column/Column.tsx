@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { BsTrashFill } from 'react-icons/bs';
 import { ICard, IColumn } from '../../models';
 import { Button } from '../../UIcomponents/Button';
 import { Input } from '../../UIcomponents/Input';
@@ -73,7 +74,7 @@ const Column: React.FC<ColumnPropsType> = ({
                   onClick={(event: React.MouseEvent<HTMLElement>) =>
                     deleteCardFromCardList(event, elem.id)
                   }>
-                  x
+                  <BsTrashFill />
                 </DeleteBtn>
                 <span>{elem.title}</span>
               </CardItem>

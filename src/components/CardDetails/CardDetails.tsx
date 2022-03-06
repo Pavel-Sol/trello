@@ -101,7 +101,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
           placeholder="напишите комментарий"
         />
         <BtnWrap>
-          <ButtonOutlined text="сохранить" onClick={addComment} />
+          <ButtonOutlined text="добавить" onClick={addComment} />
         </BtnWrap>
       </Row>
       <Row>

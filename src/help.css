@@ -1,0 +1,8 @@
+.test {
+  flex-direction: column;
+
+  font-size: 14px;
+  text-align: right;
+
+  margin-top: 10px;
+}

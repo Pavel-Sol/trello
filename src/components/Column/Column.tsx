@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { BsTrashFill } from 'react-icons/bs';
-import { ICard, IColumn } from '../../models';
+import { ICard, IColumn, IComment } from '../../models';
 import { Button } from '../../UIcomponents/Button';
 import { Input } from '../../UIcomponents/Input';
 
-import { Row, Container, CardItem, DeleteBtn } from './style';
+import { Row, Container, CardItem, DeleteBtn, CommentCount } from './style';
 
 type ColumnPropsType = {
+  comments: IComment[];
   columnData: IColumn;
   cards: ICard[];
   updateColumns: (updatedColumn: IColumn) => void;
@@ -18,6 +19,7 @@ type ColumnPropsType = {
 const Column: React.FC<ColumnPropsType> = ({
   columnData,
   cards,
+  comments,
   updateColumns,
   addCardInCardList,
   deleteCardFromCardList,
@@ -77,6 +79,10 @@ const Column: React.FC<ColumnPropsType> = ({
                     <BsTrashFill />
                   </DeleteBtn>
                   <span>{elem.title}</span>
+                  <CommentCount>
+                    {comments.filter((comment) => comment.cardId === elem.id).length}
+                    &nbsp;комментариев
+                  </CommentCount>
                 </CardItem>
               ))
           : null}

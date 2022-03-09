@@ -22,6 +22,7 @@ export const CardItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   margin: 5px 0px;
   border-radius: 2px;
   position: relative;
@@ -45,4 +46,9 @@ export const DeleteBtn = styled.div`
   &:hover {
     background-color: rgb(200, 208, 214);
   }
+`;
+
+export const CommentCount = styled.p`
+  font-size: 12px;
+  margin-top: 10px;
 `;

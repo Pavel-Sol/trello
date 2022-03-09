@@ -122,6 +122,7 @@ const Board: React.FC = () => {
           {columns.map((column) => {
             return (
               <Column
+                comments={comments}
                 key={column.id}
                 columnData={column}
                 updateColumns={updateColumns}

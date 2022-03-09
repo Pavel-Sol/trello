@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { ICard, IColumn, IComment } from '../../models';
+import { RootState } from '../../store';
 import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
 import { Input } from '../../UIcomponents/Input';
 import { Comment } from './components/Comment';
 import { BtnWrap, Container, Row, SubTitle } from './style';
 
 type CardDetailsPropsType = {
-  author: string;
   currentCard: ICard | null;
   columns: IColumn[];
   comments: IComment[];
@@ -17,7 +18,6 @@ type CardDetailsPropsType = {
 };
 
 const CardDetails: React.FC<CardDetailsPropsType> = ({
-  author,
   currentCard,
   columns,
   comments,
@@ -26,6 +26,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
   updateComments,
   deleteCommentFromComments,
 }) => {
+  const authorName = useSelector((state: RootState) => state.author.author);
   const columnTitle = columns.filter((el) => el.id === currentCard?.columnId)[0].title;
   const commentsByCurrentCard = comments.filter((el) => el.cardId === currentCard?.id);
   const [cardTitle, setCardTitle] = useState(currentCard?.title || '-');
@@ -84,7 +85,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
         <SubTitle>колонка: {columnTitle}</SubTitle>
       </Row>
       <Row>
-        <SubTitle>автор: {author}</SubTitle>
+        <SubTitle>автор: {authorName}</SubTitle>
       </Row>
       <Row>
         <SubTitle>Название карточки</SubTitle>
@@ -109,7 +110,6 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
         {commentsByCurrentCard.map((el) => {
           return (
             <Comment
-              author={author}
               key={el.id}
               commentData={el}
               updateComments={updateComments}

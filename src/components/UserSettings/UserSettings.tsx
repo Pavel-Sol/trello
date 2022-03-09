@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setAuthorName } from '../../store/ducks/author';
 import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
 import { Input } from '../../UIcomponents/Input';
 
@@ -8,15 +10,15 @@ type UserSettingsPropsType = {
 };
 
 const UserSettings: React.FC<UserSettingsPropsType> = ({ setAuthor, handleCloseModal }) => {
+  const dispatch = useDispatch();
   const [userName, setUserName] = useState('');
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
   };
 
-  const saveAutorName = () => {
+  const saveAuthorName = () => {
     if (userName) {
-      setAuthor(userName);
-      localStorage.setItem('author', JSON.stringify(userName));
+      dispatch(setAuthorName({ authorName: userName }));
       handleCloseModal();
     }
   };
@@ -24,7 +26,7 @@ const UserSettings: React.FC<UserSettingsPropsType> = ({ setAuthor, handleCloseM
   return (
     <>
       <Input placeholder="введите имя" value={userName} onChange={handleInput} fullWidth={true} />
-      <ButtonOutlined onClick={saveAutorName} text="сохранить" m="10px" />
+      <ButtonOutlined onClick={saveAuthorName} text="сохранить" m="10px" />
     </>
   );
 };

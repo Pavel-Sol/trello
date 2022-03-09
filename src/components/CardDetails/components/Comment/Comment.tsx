@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { IComment } from '../../../../models';
+import { RootState } from '../../../../store';
 import { Button } from '../../../../UIcomponents/Button';
 import { Input } from '../../../../UIcomponents/Input';
 import { Row, SmallText } from '../../style';
 
 type CommentPropsType = {
-  author: string;
   commentData: IComment;
   updateComments: (updatedComment: IComment) => void;
   deleteCommentFromComments: (commentId: number) => void;
 };
 
 const Comment: React.FC<CommentPropsType> = ({
-  author,
   commentData,
   updateComments,
   deleteCommentFromComments,
 }) => {
+  const authorName = useSelector((state: RootState) => state.author.author);
   const [commentText, setCommentText] = useState(commentData.text);
   const handleCommentText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentText(e.target.value);
@@ -33,7 +34,7 @@ const Comment: React.FC<CommentPropsType> = ({
 
   return (
     <Row>
-      <SmallText>{author}</SmallText>
+      <SmallText>{authorName}</SmallText>
       <Input value={commentText} onChange={handleCommentText} fullWidth={true} />
       <Row>
         <Button text="удалить" onClick={() => deleteCommentFromComments(commentData.id)} />

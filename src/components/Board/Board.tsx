@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { ICard, IColumn, IComment } from '../../models';
+import { RootState } from '../../store';
 import { Modal } from '../../UIcomponents/Modal';
 import { CardDetails } from '../CardDetails';
 import { Column } from '../Column';
@@ -15,6 +17,8 @@ const initialData = [
 
 const Board: React.FC = () => {
   const [modalActive, setModalActive] = useState('');
+  const authorName = useSelector((state: RootState) => state.author.author);
+
   const [author, setAuthor] = useState('');
   const [currentCard, setCurrentCard] = useState<ICard | null>(null);
   const [columns, setColumns] = useState<IColumn[]>([]); //columns
@@ -43,9 +47,8 @@ const Board: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (localStorage.getItem('author')) {
-      setAuthor(JSON.parse(localStorage.getItem('author')!));
-    } else {
+    // проверяем, есть ли имя автора
+    if (!authorName) {
       setModalActive('USER_SETTING');
     }
   }, []);
@@ -140,7 +143,6 @@ const Board: React.FC = () => {
       </Modal>
       <Modal visible={modalActive === 'CARD_DETAILS'} handleCloseModal={handleCloseModal}>
         <CardDetails
-          author={author}
           currentCard={currentCard}
           columns={columns}
           comments={comments}

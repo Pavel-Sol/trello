@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ButtonStyled = styled('button')<{
+export const ButtonOutlinedStyled = styled('button')<{
   fullWidth?: boolean;
   m?: string;
 }>`
@@ -11,10 +11,9 @@ export const ButtonStyled = styled('button')<{
   border: none;
   transition: all 0.3s ease;
   padding: 0 5px;
-  color: #5e6c84;
-  margin: 5px 0px;
-
+  background-color: rgb(0, 121, 191);
+  color: #fff;
   &:hover {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgb(72, 178, 240);
   }
 `;

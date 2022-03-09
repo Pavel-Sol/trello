@@ -1,2 +1,1 @@
-export { default as ButtonOutlined } from './ButtonOutlined';
-export { Button } from './Button';
+export { default as Button } from './Button';

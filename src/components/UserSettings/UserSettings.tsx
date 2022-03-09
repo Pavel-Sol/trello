@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ButtonOutlined } from '../../UIcomponents/Button';
+import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
 import { Input } from '../../UIcomponents/Input';
 
 type UserSettingsPropsType = {

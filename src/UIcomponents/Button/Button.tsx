@@ -8,15 +8,12 @@ type ButtonPropsType = {
   m?: string;
 };
 
-export const Button: React.FC<ButtonPropsType> = ({
-  onClick,
-  text,
-  fullWidth,
-  m,
-}: ButtonPropsType) => {
+const Button: React.FC<ButtonPropsType> = ({ onClick, text, fullWidth, m }: ButtonPropsType) => {
   return (
     <ButtonStyled onClick={onClick} fullWidth={fullWidth} m={m}>
       {text}
     </ButtonStyled>
   );
 };
+
+export default Button;

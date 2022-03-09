@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ICard, IColumn, IComment } from '../../models';
-import { ButtonOutlined } from '../../UIcomponents/Button';
+import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
 import { Input } from '../../UIcomponents/Input';
 import Comment from './components/Comment';
 import { BtnWrap, Container, Row, SubTitle } from './style';

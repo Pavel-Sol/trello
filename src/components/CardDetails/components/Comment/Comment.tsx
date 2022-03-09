@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { IComment } from '../../../models';
-import { Button } from '../../../UIcomponents/Button';
-import { Input } from '../../../UIcomponents/Input';
-import { Row, SmallText } from '../style';
+import { IComment } from '../../../../models';
+import { Button } from '../../../../UIcomponents/Button';
+import { Input } from '../../../../UIcomponents/Input';
+import { Row, SmallText } from '../../style';
 
 type CommentPropsType = {
   autor: string;

@@ -27,6 +27,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
   deleteCommentFromComments,
 }) => {
   const columnTitle = columns.filter((el) => el.id === currentCard?.columnId)[0].title;
+  const commentsByCurrentCard = comments.filter((el) => el.cardId === currentCard?.id);
   const [cardTitle, setCardTitle] = useState(currentCard?.title || '-');
   const [cardDesc, setCardDesc] = useState(currentCard?.desc || '');
   const [newCommentText, setNewCommentText] = useState('');
@@ -94,7 +95,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
         <Input value={cardDesc} onChange={(e) => handleCardDesc(e)} onBlur={saveCardDesc} />
       </Row>
       <Row>
-        <SubTitle>комментарии</SubTitle>
+        <SubTitle>{`комментарии (${commentsByCurrentCard.length})`}</SubTitle>
         <Input
           value={newCommentText}
           onChange={(e) => handleNewCommentText(e)}
@@ -105,7 +106,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
         </BtnWrap>
       </Row>
       <Row>
-        {comments.map((el) => {
+        {commentsByCurrentCard.map((el) => {
           return (
             <Comment
               autor={autor}

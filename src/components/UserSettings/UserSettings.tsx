@@ -3,11 +3,11 @@ import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
 import { Input } from '../../UIcomponents/Input';
 
 type UserSettingsPropsType = {
-  setAutor: (userName: string) => void;
+  setAuthor: (userName: string) => void;
   handleCloseModal: () => void;
 };
 
-const UserSettings: React.FC<UserSettingsPropsType> = ({ setAutor, handleCloseModal }) => {
+const UserSettings: React.FC<UserSettingsPropsType> = ({ setAuthor, handleCloseModal }) => {
   const [userName, setUserName] = useState('');
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
@@ -15,8 +15,8 @@ const UserSettings: React.FC<UserSettingsPropsType> = ({ setAutor, handleCloseMo
 
   const saveAutorName = () => {
     if (userName) {
-      setAutor(userName);
-      localStorage.setItem('autor', JSON.stringify(userName));
+      setAuthor(userName);
+      localStorage.setItem('author', JSON.stringify(userName));
       handleCloseModal();
     }
   };

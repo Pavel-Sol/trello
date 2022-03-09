@@ -6,7 +6,7 @@ import { Column } from '../Column';
 import { UserSettings } from '../UserSettings';
 import { BoardStyled, ColumnsList, Container } from './style';
 
-const damyData = [
+const initialData = [
   { id: 0, title: 'TODO' },
   { id: 1, title: 'In Progress' },
   { id: 2, title: 'Testing' },
@@ -15,40 +15,36 @@ const damyData = [
 
 const Board: React.FC = () => {
   const [modalActive, setModalActive] = useState('');
-  const [autor, setAutor] = useState('');
+  const [author, setAuthor] = useState('');
   const [currentCard, setCurrentCard] = useState<ICard | null>(null);
-  const [columns, setColumns] = useState<Array<IColumn>>([]); //колонки
-  const [cards, setCards] = useState<Array<ICard>>([]); //карточки
-  const [comments, setComments] = useState<Array<IComment>>([]); //комментарии
+  const [columns, setColumns] = useState<Array<IColumn>>([]); //columns
+  const [cards, setCards] = useState<Array<ICard>>([]); // cards
+  const [comments, setComments] = useState<Array<IComment>>([]); // comments
 
   useEffect(() => {
-    // вытаскиваем список колонок из LS, если нет, берем готовые
     if (localStorage.getItem('columns')) {
       setColumns(Array.from(JSON.parse(localStorage.getItem('columns')!)));
     } else {
-      localStorage.setItem('columns', JSON.stringify(damyData));
-      setColumns(damyData);
+      localStorage.setItem('columns', JSON.stringify(initialData));
+      setColumns(initialData);
     }
   }, []);
 
   useEffect(() => {
-    // вытаскиваем список карточек
     if (localStorage.getItem('cards')) {
       setCards(Array.from(JSON.parse(localStorage.getItem('cards')!)));
     }
   }, []);
 
   useEffect(() => {
-    // вытаскиваем список комментариев
     if (localStorage.getItem('comments')) {
       setComments(Array.from(JSON.parse(localStorage.getItem('comments')!)));
     }
   }, []);
 
   useEffect(() => {
-    // вытаскиваем имя автора
-    if (localStorage.getItem('autor')) {
-      setAutor(JSON.parse(localStorage.getItem('autor')!));
+    if (localStorage.getItem('author')) {
+      setAuthor(JSON.parse(localStorage.getItem('author')!));
     } else {
       setModalActive('USER_SETTING');
     }
@@ -139,11 +135,11 @@ const Board: React.FC = () => {
         </ColumnsList>
       </Container>
       <Modal visible={modalActive === 'USER_SETTING'} handleCloseModal={handleCloseModal}>
-        <UserSettings setAutor={setAutor} handleCloseModal={handleCloseModal} />
+        <UserSettings setAuthor={setAuthor} handleCloseModal={handleCloseModal} />
       </Modal>
       <Modal visible={modalActive === 'CARD_DETAILS'} handleCloseModal={handleCloseModal}>
         <CardDetails
-          autor={autor}
+          author={author}
           currentCard={currentCard}
           columns={columns}
           comments={comments}

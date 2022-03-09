@@ -6,18 +6,18 @@ import { Comment } from './components/Comment';
 import { BtnWrap, Container, Row, SubTitle } from './style';
 
 type CardDetailsPropsType = {
-  autor: string;
+  author: string;
   currentCard: ICard | null;
   columns: Array<IColumn>;
   comments: Array<IComment>;
   updateCardList: (updatedCard: ICard) => void;
-  addCommentToComments: (commet: IComment) => void;
+  addCommentToComments: (comment: IComment) => void;
   updateComments: (updatedComment: IComment) => void;
   deleteCommentFromComments: (commentId: number) => void;
 };
 
 const CardDetails: React.FC<CardDetailsPropsType> = ({
-  autor,
+  author,
   currentCard,
   columns,
   comments,
@@ -51,19 +51,19 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
     }
 
     if (currentCard !== null) {
-      const updatetCard = { ...currentCard };
-      updatetCard.title = cardTitle;
+      const updatedCard = { ...currentCard };
+      updatedCard.title = cardTitle;
 
-      updateCardList(updatetCard);
+      updateCardList(updatedCard);
     }
   };
 
   const saveCardDesc = () => {
     if (currentCard !== null) {
-      const updatetCard = { ...currentCard };
-      updatetCard.desc = cardDesc;
+      const updatedCard = { ...currentCard };
+      updatedCard.desc = cardDesc;
 
-      updateCardList(updatetCard);
+      updateCardList(updatedCard);
     }
   };
 
@@ -84,7 +84,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
         <SubTitle>колонка: {columnTitle}</SubTitle>
       </Row>
       <Row>
-        <SubTitle>автор: {autor}</SubTitle>
+        <SubTitle>автор: {author}</SubTitle>
       </Row>
       <Row>
         <SubTitle>Название карточки</SubTitle>
@@ -109,7 +109,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
         {commentsByCurrentCard.map((el) => {
           return (
             <Comment
-              autor={autor}
+              author={author}
               key={el.id}
               commentData={el}
               updateComments={updateComments}

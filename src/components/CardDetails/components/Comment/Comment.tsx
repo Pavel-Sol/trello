@@ -5,14 +5,14 @@ import { Input } from '../../../../UIcomponents/Input';
 import { Row, SmallText } from '../../style';
 
 type CommentPropsType = {
-  autor: string;
+  author: string;
   commentData: IComment;
   updateComments: (updatedComment: IComment) => void;
   deleteCommentFromComments: (commentId: number) => void;
 };
 
 const Comment: React.FC<CommentPropsType> = ({
-  autor,
+  author,
   commentData,
   updateComments,
   deleteCommentFromComments,
@@ -33,7 +33,7 @@ const Comment: React.FC<CommentPropsType> = ({
 
   return (
     <Row>
-      <SmallText>{autor}</SmallText>
+      <SmallText>{author}</SmallText>
       <Input value={commentText} onChange={handleCommentText} fullWidth={true} />
       <Row>
         <Button text="удалить" onClick={() => deleteCommentFromComments(commentData.id)} />

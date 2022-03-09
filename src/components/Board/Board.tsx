@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ICard, IColumn, IComment } from '../../models';
 import { RootState } from '../../store';
+import { selectColumns } from '../../store/ducks/column/selectors';
 import { Modal } from '../../UIcomponents/Modal';
 import { CardDetails } from '../CardDetails';
 import { Column } from '../Column';
@@ -13,7 +14,7 @@ const Board: React.FC = () => {
   const authorName = useSelector((state: RootState) => state.author.author);
 
   const [currentCard, setCurrentCard] = useState<ICard | null>(null);
-  const columns: Array<IColumn> = useSelector((state: RootState) => state.column.columns); //columns
+  const columns: Array<IColumn> = useSelector(selectColumns); //columns
   const [cards, setCards] = useState<ICard[]>([]); // cards
   const [comments, setComments] = useState<IComment[]>([]); // comments
 

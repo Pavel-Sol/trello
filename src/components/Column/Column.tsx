@@ -65,20 +65,21 @@ const Column: React.FC<ColumnPropsType> = ({
         <Button text="Добавить карточку" fullWidth={true} onClick={addNewCard} />
       </Row>
       <Row>
-        {cards?.length &&
-          cards
-            .filter((el) => el.columnId === columnData.id)
-            .map((elem) => (
-              <CardItem key={elem.id} onClick={() => selectCurrentCard(elem)}>
-                <DeleteBtn
-                  onClick={(event: React.MouseEvent<HTMLElement>) =>
-                    deleteCardFromCardList(event, elem.id)
-                  }>
-                  <BsTrashFill />
-                </DeleteBtn>
-                <span>{elem.title}</span>
-              </CardItem>
-            ))}
+        {cards?.length
+          ? cards
+              .filter((el) => el.columnId === columnData.id)
+              .map((elem) => (
+                <CardItem key={elem.id} onClick={() => selectCurrentCard(elem)}>
+                  <DeleteBtn
+                    onClick={(event: React.MouseEvent<HTMLElement>) =>
+                      deleteCardFromCardList(event, elem.id)
+                    }>
+                    <BsTrashFill />
+                  </DeleteBtn>
+                  <span>{elem.title}</span>
+                </CardItem>
+              ))
+          : null}
       </Row>
     </Container>
   );

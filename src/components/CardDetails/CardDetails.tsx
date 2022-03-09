@@ -8,8 +8,8 @@ import { BtnWrap, Container, Row, SubTitle } from './style';
 type CardDetailsPropsType = {
   author: string;
   currentCard: ICard | null;
-  columns: Array<IColumn>;
-  comments: Array<IComment>;
+  columns: IColumn[];
+  comments: IComment[];
   updateCardList: (updatedCard: ICard) => void;
   addCommentToComments: (comment: IComment) => void;
   updateComments: (updatedComment: IComment) => void;

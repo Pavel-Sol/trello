@@ -8,7 +8,7 @@ import { Row, Container, CardItem, DeleteBtn } from './style';
 
 type ColumnPropsType = {
   columnData: IColumn;
-  cards: Array<ICard>;
+  cards: ICard[];
   updateColumns: (updatedColumn: IColumn) => void;
   addCardInCardList: (card: ICard) => void;
   deleteCardFromCardList: (event: React.MouseEvent<HTMLElement>, cardId: number) => void;

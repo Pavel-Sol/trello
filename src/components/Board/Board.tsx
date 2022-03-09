@@ -17,9 +17,9 @@ const Board: React.FC = () => {
   const [modalActive, setModalActive] = useState('');
   const [author, setAuthor] = useState('');
   const [currentCard, setCurrentCard] = useState<ICard | null>(null);
-  const [columns, setColumns] = useState<Array<IColumn>>([]); //columns
-  const [cards, setCards] = useState<Array<ICard>>([]); // cards
-  const [comments, setComments] = useState<Array<IComment>>([]); // comments
+  const [columns, setColumns] = useState<IColumn[]>([]); //columns
+  const [cards, setCards] = useState<ICard[]>([]); // cards
+  const [comments, setComments] = useState<IComment[]>([]); // comments
 
   useEffect(() => {
     if (localStorage.getItem('columns')) {

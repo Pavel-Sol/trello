@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IComment } from '../../../../models';
 import { RootState } from '../../../../store';
+import { selectAuthor } from '../../../../store/ducks/author';
 import { Button } from '../../../../UIcomponents/Button';
 import { Input } from '../../../../UIcomponents/Input';
 import { Row, SmallText } from '../../style';
@@ -17,7 +18,7 @@ const Comment: React.FC<CommentPropsType> = ({
   updateComments,
   deleteCommentFromComments,
 }) => {
-  const authorName = useSelector((state: RootState) => state.author.author);
+  const authorName = useSelector(selectAuthor);
   const [commentText, setCommentText] = useState(commentData.text);
   const handleCommentText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentText(e.target.value);

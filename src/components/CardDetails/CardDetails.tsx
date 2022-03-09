@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ICard, IColumn, IComment } from '../../models';
 import { RootState } from '../../store';
+import { selectAuthor } from '../../store/ducks/author';
 import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
 import { Input } from '../../UIcomponents/Input';
 import { Comment } from './components/Comment';
@@ -26,7 +27,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
   updateComments,
   deleteCommentFromComments,
 }) => {
-  const authorName = useSelector((state: RootState) => state.author.author);
+  const authorName = useSelector(selectAuthor);
   const columnTitle = columns.filter((el) => el.id === currentCard?.columnId)[0].title;
   const commentsByCurrentCard = comments.filter((el) => el.cardId === currentCard?.id);
   const [cardTitle, setCardTitle] = useState(currentCard?.title || '-');

@@ -19,7 +19,6 @@ const Board: React.FC = () => {
   const [modalActive, setModalActive] = useState('');
   const authorName = useSelector((state: RootState) => state.author.author);
 
-  const [author, setAuthor] = useState('');
   const [currentCard, setCurrentCard] = useState<ICard | null>(null);
   const [columns, setColumns] = useState<IColumn[]>([]); //columns
   const [cards, setCards] = useState<ICard[]>([]); // cards
@@ -51,7 +50,7 @@ const Board: React.FC = () => {
     if (!authorName) {
       setModalActive('USER_SETTING');
     }
-  }, []);
+  }, [authorName]);
 
   const handleCloseModal = (): void => {
     setModalActive('');
@@ -139,7 +138,7 @@ const Board: React.FC = () => {
         </ColumnsList>
       </Container>
       <Modal visible={modalActive === 'USER_SETTING'} handleCloseModal={handleCloseModal}>
-        <UserSettings setAuthor={setAuthor} handleCloseModal={handleCloseModal} />
+        <UserSettings handleCloseModal={handleCloseModal} />
       </Modal>
       <Modal visible={modalActive === 'CARD_DETAILS'} handleCloseModal={handleCloseModal}>
         <CardDetails

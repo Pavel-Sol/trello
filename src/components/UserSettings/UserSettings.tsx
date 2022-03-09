@@ -5,11 +5,10 @@ import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
 import { Input } from '../../UIcomponents/Input';
 
 type UserSettingsPropsType = {
-  setAuthor: (userName: string) => void;
   handleCloseModal: () => void;
 };
 
-const UserSettings: React.FC<UserSettingsPropsType> = ({ setAuthor, handleCloseModal }) => {
+const UserSettings: React.FC<UserSettingsPropsType> = ({ handleCloseModal }) => {
   const dispatch = useDispatch();
   const [userName, setUserName] = useState('');
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {

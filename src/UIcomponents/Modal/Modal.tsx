@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { GrClose } from 'react-icons/gr';
 import { BtnClose, ModalContent, ModalPopup, ModalWrapper } from './style';
 
@@ -13,11 +13,14 @@ const Modal: React.FC<ModalPropsType> = ({
   visible,
   handleCloseModal,
 }: ModalPropsType) => {
-  const closeByEsc = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      handleCloseModal();
-    }
-  };
+  const closeByEsc = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleCloseModal();
+      }
+    },
+    [handleCloseModal],
+  );
 
   useEffect(() => {
     document.addEventListener('keydown', closeByEsc);

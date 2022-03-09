@@ -8,30 +8,14 @@ import { Column } from '../Column';
 import { UserSettings } from '../UserSettings';
 import { BoardStyled, ColumnsList, Container } from './style';
 
-const initialData = [
-  { id: 0, title: 'TODO' },
-  { id: 1, title: 'In Progress' },
-  { id: 2, title: 'Testing' },
-  { id: 3, title: 'Done' },
-];
-
 const Board: React.FC = () => {
   const [modalActive, setModalActive] = useState('');
   const authorName = useSelector((state: RootState) => state.author.author);
 
   const [currentCard, setCurrentCard] = useState<ICard | null>(null);
-  const [columns, setColumns] = useState<IColumn[]>([]); //columns
+  const columns: Array<IColumn> = useSelector((state: RootState) => state.column.columns); //columns
   const [cards, setCards] = useState<ICard[]>([]); // cards
   const [comments, setComments] = useState<IComment[]>([]); // comments
-
-  useEffect(() => {
-    if (localStorage.getItem('columns')) {
-      setColumns(Array.from(JSON.parse(localStorage.getItem('columns')!)));
-    } else {
-      localStorage.setItem('columns', JSON.stringify(initialData));
-      setColumns(initialData);
-    }
-  }, []);
 
   useEffect(() => {
     if (localStorage.getItem('cards')) {
@@ -59,15 +43,6 @@ const Board: React.FC = () => {
   const selectCurrentCard = (card: ICard) => {
     setCurrentCard(card);
     setModalActive('CARD_DETAILS');
-  };
-
-  const updateColumns = (updatedColumn: IColumn) => {
-    const updatedColumnsList = columns.map((el) => {
-      return el.id === updatedColumn.id ? updatedColumn : el;
-    });
-
-    localStorage.setItem('columns', JSON.stringify(updatedColumnsList));
-    setColumns(updatedColumnsList);
   };
 
   const addCardInCardList = (card: ICard) => {
@@ -127,7 +102,6 @@ const Board: React.FC = () => {
                 comments={comments}
                 key={column.id}
                 columnData={column}
-                updateColumns={updateColumns}
                 addCardInCardList={addCardInCardList}
                 deleteCardFromCardList={deleteCardFromCardList}
                 selectCurrentCard={selectCurrentCard}

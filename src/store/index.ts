@@ -12,6 +12,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { authorReducer } from './ducks/author';
+import { columnReducer } from './ducks/column';
 
 const persistConfig = {
   key: 'root',
@@ -20,6 +21,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   author: authorReducer,
+  column: columnReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

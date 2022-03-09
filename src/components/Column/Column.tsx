@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { BsTrashFill } from 'react-icons/bs';
 import { ICard, IColumn, IComment } from '../../models';
 import { Button } from '../../UIcomponents/Button';
 import { Input } from '../../UIcomponents/Input';
 
 import { Row, Container, CardItem, DeleteBtn, CommentCount } from './style';
+import { updateColumnList } from '../../store/ducks/column';
 
 type ColumnPropsType = {
   comments: IComment[];
   columnData: IColumn;
   cards: ICard[];
-  updateColumns: (updatedColumn: IColumn) => void;
   addCardInCardList: (card: ICard) => void;
   deleteCardFromCardList: (event: React.MouseEvent<HTMLElement>, cardId: number) => void;
   selectCurrentCard: (card: ICard) => void;
@@ -20,11 +21,11 @@ const Column: React.FC<ColumnPropsType> = ({
   columnData,
   cards,
   comments,
-  updateColumns,
   addCardInCardList,
   deleteCardFromCardList,
   selectCurrentCard,
 }) => {
+  const dispatch = useDispatch();
   const [columnTitle, setColumnTitle] = useState(columnData.title);
   const [cardTitle, setCardTitle] = useState('');
 
@@ -42,7 +43,7 @@ const Column: React.FC<ColumnPropsType> = ({
       return;
     }
     const updatedColumn = { ...columnData, title: columnTitle };
-    updateColumns(updatedColumn);
+    dispatch(updateColumnList({ column: updatedColumn }));
   };
 
   const addNewCard = () => {

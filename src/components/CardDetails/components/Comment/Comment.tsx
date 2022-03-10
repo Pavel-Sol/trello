@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IComment } from '../../../../models';
 import { selectAuthor } from '../../../../store/ducks/author';
+import { deleteCommentFromCommentList, updateCommentList } from '../../../../store/ducks/comment';
 import { Button } from '../../../../UIcomponents/Button';
 import { Input } from '../../../../UIcomponents/Input';
 import { Row, SmallText } from '../../style';
 
 type CommentPropsType = {
   commentData: IComment;
-  updateComments: (updatedComment: IComment) => void;
-  deleteCommentFromComments: (commentId: number) => void;
 };
 
-const Comment: React.FC<CommentPropsType> = ({
-  commentData,
-  updateComments,
-  deleteCommentFromComments,
-}) => {
+const Comment: React.FC<CommentPropsType> = ({ commentData }) => {
+  const dispatch = useDispatch();
   const authorName = useSelector(selectAuthor);
   const [commentText, setCommentText] = useState(commentData.text);
   const handleCommentText = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +25,11 @@ const Comment: React.FC<CommentPropsType> = ({
       return;
     }
     const updatedComment = { ...commentData, text: commentText };
-    updateComments(updatedComment);
+    dispatch(updateCommentList({ comment: updatedComment }));
+  };
+
+  const deleteComment = () => {
+    dispatch(deleteCommentFromCommentList({ commentId: commentData.id }));
   };
 
   return (
@@ -37,7 +37,7 @@ const Comment: React.FC<CommentPropsType> = ({
       <SmallText>{authorName}</SmallText>
       <Input value={commentText} onChange={handleCommentText} fullWidth={true} />
       <Row>
-        <Button text="удалить" onClick={() => deleteCommentFromComments(commentData.id)} />
+        <Button text="удалить" onClick={deleteComment} />
         <Button text="сохранить изменения" onClick={saveCommentText} />
       </Row>
     </Row>

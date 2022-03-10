@@ -7,21 +7,21 @@ import { Input } from '../../UIcomponents/Input';
 
 import { Row, Container, CardItem, DeleteBtn, CommentCount } from './style';
 import { updateColumnList } from '../../store/ducks/column';
-import { RootState } from '../../store';
 import { addCardToCardList, deleteCardFromCardList, selectCards } from '../../store/ducks/card';
+import { selectComments } from '../../store/ducks/comment';
 
 type ColumnPropsType = {
-  comments: IComment[];
   columnData: IColumn;
   selectCurrentCard: (card: ICard) => void;
 };
 
-const Column: React.FC<ColumnPropsType> = ({ columnData, comments, selectCurrentCard }) => {
+const Column: React.FC<ColumnPropsType> = ({ columnData, selectCurrentCard }) => {
   const dispatch = useDispatch();
   const [columnTitle, setColumnTitle] = useState(columnData.title);
   const [cardTitle, setCardTitle] = useState('');
 
   const cards = useSelector(selectCards);
+  const comments = useSelector(selectComments);
 
   const handleColumnsTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setColumnTitle(e.target.value);

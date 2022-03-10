@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ICard, IColumn, IComment } from '../../models';
+import { ICard, IColumn } from '../../models';
 import { selectAuthor } from '../../store/ducks/author';
 import { updateCardList } from '../../store/ducks/card';
+import { addCommentToCommentList, selectComments } from '../../store/ducks/comment';
 import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
 import { Input } from '../../UIcomponents/Input';
 import { Comment } from './components/Comment';
@@ -11,22 +12,13 @@ import { BtnWrap, Container, Row, SubTitle } from './style';
 type CardDetailsPropsType = {
   currentCard: ICard | null;
   columns: IColumn[];
-  comments: IComment[];
-  addCommentToComments: (comment: IComment) => void;
-  updateComments: (updatedComment: IComment) => void;
-  deleteCommentFromComments: (commentId: number) => void;
 };
 
-const CardDetails: React.FC<CardDetailsPropsType> = ({
-  currentCard,
-  columns,
-  comments,
-  addCommentToComments,
-  updateComments,
-  deleteCommentFromComments,
-}) => {
+const CardDetails: React.FC<CardDetailsPropsType> = ({ currentCard, columns }) => {
   const dispatch = useDispatch();
   const authorName = useSelector(selectAuthor);
+  const comments = useSelector(selectComments);
+
   const columnTitle = columns.filter((el) => el.id === currentCard?.columnId)[0].title;
   const commentsByCurrentCard = comments.filter((el) => el.cardId === currentCard?.id);
   const [cardTitle, setCardTitle] = useState(currentCard?.title || '-');
@@ -75,7 +67,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
       text: newCommentText,
     };
 
-    addCommentToComments(newComment);
+    dispatch(addCommentToCommentList({ comment: newComment }));
     setNewCommentText('');
   };
 
@@ -108,14 +100,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
       </Row>
       <Row>
         {commentsByCurrentCard.map((el) => {
-          return (
-            <Comment
-              key={el.id}
-              commentData={el}
-              updateComments={updateComments}
-              deleteCommentFromComments={deleteCommentFromComments}
-            />
-          );
+          return <Comment key={el.id} commentData={el} />;
         })}
       </Row>
     </Container>

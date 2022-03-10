@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const authorSlice = createSlice({
   name: 'author',
@@ -6,7 +6,7 @@ const authorSlice = createSlice({
     author: '',
   },
   reducers: {
-    setAuthorName(state, action) {
+    setAuthorName(state, action: PayloadAction<{ authorName: string }>) {
       state.author = action.payload.authorName;
     },
   },

@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { IColumn } from './../../../models/index';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const columnSlice = createSlice({
   name: 'column',
@@ -11,7 +12,7 @@ const columnSlice = createSlice({
     ],
   },
   reducers: {
-    updateColumnList(state, action) {
+    updateColumnList(state, action: PayloadAction<{ column: IColumn }>) {
       state.columns = state.columns.map((el) => {
         return el.id === action.payload.column.id ? action.payload.column : el;
       });

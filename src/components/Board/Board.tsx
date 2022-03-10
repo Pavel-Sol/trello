@@ -13,7 +13,7 @@ const Board: React.FC = () => {
   const [modalActive, setModalActive] = useState('');
   const authorName: string = useSelector(selectAuthor);
   const columns: Array<IColumn> = useSelector(selectColumns); //columns
-  const [currentCard, setCurrentCard] = useState<ICard | null>(null); // cards
+  const [currentCard, setCurrentCard] = useState<ICard | null>(null);
   const [comments, setComments] = useState<IComment[]>([]); // comments
 
   useEffect(() => {

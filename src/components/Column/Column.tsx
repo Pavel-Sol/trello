@@ -8,7 +8,7 @@ import { Input } from '../../UIcomponents/Input';
 import { Row, Container, CardItem, DeleteBtn, CommentCount } from './style';
 import { updateColumnList } from '../../store/ducks/column';
 import { RootState } from '../../store';
-import { addCardToCardList, deleteCardFromCardList } from '../../store/ducks/card';
+import { addCardToCardList, deleteCardFromCardList, selectCards } from '../../store/ducks/card';
 
 type ColumnPropsType = {
   comments: IComment[];
@@ -21,7 +21,7 @@ const Column: React.FC<ColumnPropsType> = ({ columnData, comments, selectCurrent
   const [columnTitle, setColumnTitle] = useState(columnData.title);
   const [cardTitle, setCardTitle] = useState('');
 
-  const cards = useSelector((state: RootState) => state.card.cards);
+  const cards = useSelector(selectCards);
 
   const handleColumnsTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setColumnTitle(e.target.value);

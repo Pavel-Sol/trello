@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IComment } from '../../../../models';
-import { RootState } from '../../../../store';
 import { selectAuthor } from '../../../../store/ducks/author';
 import { Button } from '../../../../UIcomponents/Button';
 import { Input } from '../../../../UIcomponents/Input';

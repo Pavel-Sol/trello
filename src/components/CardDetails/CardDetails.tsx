@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ICard, IColumn, IComment } from '../../models';
-import { RootState } from '../../store';
 import { selectAuthor } from '../../store/ducks/author';
+import { updateCardList } from '../../store/ducks/card';
 import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
 import { Input } from '../../UIcomponents/Input';
 import { Comment } from './components/Comment';
@@ -12,7 +12,6 @@ type CardDetailsPropsType = {
   currentCard: ICard | null;
   columns: IColumn[];
   comments: IComment[];
-  updateCardList: (updatedCard: ICard) => void;
   addCommentToComments: (comment: IComment) => void;
   updateComments: (updatedComment: IComment) => void;
   deleteCommentFromComments: (commentId: number) => void;
@@ -22,11 +21,11 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
   currentCard,
   columns,
   comments,
-  updateCardList,
   addCommentToComments,
   updateComments,
   deleteCommentFromComments,
 }) => {
+  const dispatch = useDispatch();
   const authorName = useSelector(selectAuthor);
   const columnTitle = columns.filter((el) => el.id === currentCard?.columnId)[0].title;
   const commentsByCurrentCard = comments.filter((el) => el.cardId === currentCard?.id);
@@ -56,7 +55,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
       const updatedCard = { ...currentCard };
       updatedCard.title = cardTitle;
 
-      updateCardList(updatedCard);
+      dispatch(updateCardList({ card: updatedCard }));
     }
   };
 
@@ -65,7 +64,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({
       const updatedCard = { ...currentCard };
       updatedCard.desc = cardDesc;
 
-      updateCardList(updatedCard);
+      dispatch(updateCardList({ card: updatedCard }));
     }
   };
 

@@ -13,16 +13,8 @@ const Board: React.FC = () => {
   const [modalActive, setModalActive] = useState('');
   const authorName: string = useSelector(selectAuthor);
   const columns: Array<IColumn> = useSelector(selectColumns); //columns
-
-  const [currentCard, setCurrentCard] = useState<ICard | null>(null);
-  const [cards, setCards] = useState<ICard[]>([]); // cards
+  const [currentCard, setCurrentCard] = useState<ICard | null>(null); // cards
   const [comments, setComments] = useState<IComment[]>([]); // comments
-
-  useEffect(() => {
-    if (localStorage.getItem('cards')) {
-      setCards(Array.from(JSON.parse(localStorage.getItem('cards')!)));
-    }
-  }, []);
 
   useEffect(() => {
     if (localStorage.getItem('comments')) {
@@ -44,30 +36,6 @@ const Board: React.FC = () => {
   const selectCurrentCard = (card: ICard) => {
     setCurrentCard(card);
     setModalActive('CARD_DETAILS');
-  };
-
-  const addCardInCardList = (card: ICard) => {
-    const updatedCardList = [card, ...cards];
-
-    localStorage.setItem('cards', JSON.stringify(updatedCardList));
-    setCards(updatedCardList);
-  };
-
-  const deleteCardFromCardList = (event: React.MouseEvent<HTMLElement>, cardId: number) => {
-    const updatedCardList = cards.filter((el) => el.id !== cardId);
-
-    localStorage.setItem('cards', JSON.stringify(updatedCardList));
-    setCards(updatedCardList);
-    event.stopPropagation();
-  };
-
-  const updateCardList = (updatedCard: ICard) => {
-    const updatedCardList = cards.map((el) => {
-      return el.id === updatedCard.id ? updatedCard : el;
-    });
-
-    localStorage.setItem('cards', JSON.stringify(updatedCardList));
-    setCards(updatedCardList);
   };
 
   const addCommentToComments = (comment: IComment) => {
@@ -103,10 +71,7 @@ const Board: React.FC = () => {
                 comments={comments}
                 key={column.id}
                 columnData={column}
-                addCardInCardList={addCardInCardList}
-                deleteCardFromCardList={deleteCardFromCardList}
                 selectCurrentCard={selectCurrentCard}
-                cards={cards}
               />
             );
           })}
@@ -120,7 +85,6 @@ const Board: React.FC = () => {
           currentCard={currentCard}
           columns={columns}
           comments={comments}
-          updateCardList={updateCardList}
           addCommentToComments={addCommentToComments}
           updateComments={updateComments}
           deleteCommentFromComments={deleteCommentFromComments}

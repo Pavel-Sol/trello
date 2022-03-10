@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BsTrashFill } from 'react-icons/bs';
 import { ICard, IColumn, IComment } from '../../models';
 import { Button } from '../../UIcomponents/Button';
@@ -7,27 +7,21 @@ import { Input } from '../../UIcomponents/Input';
 
 import { Row, Container, CardItem, DeleteBtn, CommentCount } from './style';
 import { updateColumnList } from '../../store/ducks/column';
+import { RootState } from '../../store';
+import { addCardToCardList, deleteCardFromCardList } from '../../store/ducks/card';
 
 type ColumnPropsType = {
   comments: IComment[];
   columnData: IColumn;
-  cards: ICard[];
-  addCardInCardList: (card: ICard) => void;
-  deleteCardFromCardList: (event: React.MouseEvent<HTMLElement>, cardId: number) => void;
   selectCurrentCard: (card: ICard) => void;
 };
 
-const Column: React.FC<ColumnPropsType> = ({
-  columnData,
-  cards,
-  comments,
-  addCardInCardList,
-  deleteCardFromCardList,
-  selectCurrentCard,
-}) => {
+const Column: React.FC<ColumnPropsType> = ({ columnData, comments, selectCurrentCard }) => {
   const dispatch = useDispatch();
   const [columnTitle, setColumnTitle] = useState(columnData.title);
   const [cardTitle, setCardTitle] = useState('');
+
+  const cards = useSelector((state: RootState) => state.card.cards);
 
   const handleColumnsTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setColumnTitle(e.target.value);
@@ -54,8 +48,13 @@ const Column: React.FC<ColumnPropsType> = ({
       title: cardTitle,
     };
 
-    addCardInCardList(newCard);
+    dispatch(addCardToCardList({ card: newCard }));
     setCardTitle('');
+  };
+
+  const deleteCard = (event: React.MouseEvent<HTMLElement>, cardId: number) => {
+    dispatch(deleteCardFromCardList({ cardId: cardId }));
+    event.stopPropagation();
   };
 
   return (
@@ -74,9 +73,7 @@ const Column: React.FC<ColumnPropsType> = ({
               .map((elem) => (
                 <CardItem key={elem.id} onClick={() => selectCurrentCard(elem)}>
                   <DeleteBtn
-                    onClick={(event: React.MouseEvent<HTMLElement>) =>
-                      deleteCardFromCardList(event, elem.id)
-                    }>
+                    onClick={(event: React.MouseEvent<HTMLElement>) => deleteCard(event, elem.id)}>
                     <BsTrashFill />
                   </DeleteBtn>
                   <span>{elem.title}</span>

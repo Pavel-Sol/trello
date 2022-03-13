@@ -3,10 +3,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type ICardState = {
   cards: ICard[];
+  currentCard: ICard | null;
 };
 
 const initialState: ICardState = {
   cards: [],
+  currentCard: null,
 };
 
 const cardSlice = createSlice({
@@ -24,6 +26,10 @@ const cardSlice = createSlice({
         return el.id === action.payload.card.id ? action.payload.card : el;
       });
     },
+
+    // setCurrentCard(state, action: PayloadAction<{ card: ICard }>) {
+    //   state.currentCard = action.payload.card
+    // }
   },
 });
 

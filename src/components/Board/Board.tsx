@@ -46,7 +46,7 @@ const Board: React.FC = () => {
         <UserSettings handleCloseModal={handleCloseModal} />
       </Modal>
       <Modal visible={modalActive === 'CARD_DETAILS'} handleCloseModal={handleCloseModal}>
-        <CardDetails currentCard={currentCard} columns={columns} />
+        <CardDetails columns={columns} currentCard={currentCard} />
       </Modal>
     </BoardStyled>
   );

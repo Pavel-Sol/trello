@@ -1,34 +1,13 @@
 import React from 'react';
 import { InputStyled } from './style';
+import { FieldRenderProps } from 'react-final-form';
 
-type InputPropsType = {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: () => void;
-  onFocus?: () => void;
-  placeholder?: string;
-  fullWidth?: boolean;
-};
+type InputPropsType = FieldRenderProps<string, any>;
 
-const Input: React.FC<InputPropsType> = ({
-  placeholder,
-  value,
-  onChange,
-  onBlur,
-  onFocus,
-  fullWidth,
-}: InputPropsType) => {
+const Input: React.FC<InputPropsType> = ({ input, meta, ...rest }: InputPropsType) => {
   return (
     <>
-      <InputStyled
-        placeholder={placeholder}
-        type="text"
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        fullWidth={fullWidth}
-      />
+      <InputStyled {...input} {...rest} />
     </>
   );
 };

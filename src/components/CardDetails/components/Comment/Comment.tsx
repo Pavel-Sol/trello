@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Form, Field } from 'react-final-form';
+
 import { IComment } from '../../../../models';
 import { selectAuthor } from '../../../../store/ducks/author';
 import { deleteCommentFromCommentList, updateCommentList } from '../../../../store/ducks/comment';
@@ -14,18 +16,17 @@ type CommentPropsType = {
 const Comment: React.FC<CommentPropsType> = ({ commentData }) => {
   const dispatch = useDispatch();
   const authorName = useSelector(selectAuthor);
-  const [commentText, setCommentText] = useState(commentData.text);
-  const handleCommentText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCommentText(e.target.value);
-  };
 
-  const saveCommentText = () => {
-    if (!commentText) {
-      setCommentText(commentData.text);
-      return;
+  type CommentTextValuesType = {
+    commentText: string;
+  };
+  const saveCommentText = (values: CommentTextValuesType) => {
+    if (values.commentText) {
+      const updatedComment = { ...commentData, text: values.commentText };
+      dispatch(updateCommentList({ comment: updatedComment }));
+    } else {
+      values.commentText = commentData.text;
     }
-    const updatedComment = { ...commentData, text: commentText };
-    dispatch(updateCommentList({ comment: updatedComment }));
   };
 
   const deleteComment = () => {
@@ -35,11 +36,19 @@ const Comment: React.FC<CommentPropsType> = ({ commentData }) => {
   return (
     <Row>
       <SmallText>{authorName}</SmallText>
-      <Input value={commentText} onChange={handleCommentText} fullWidth={true} />
-      <Row>
-        <Button text="удалить" onClick={deleteComment} />
-        <Button text="сохранить изменения" onClick={saveCommentText} />
-      </Row>
+      <Form
+        onSubmit={saveCommentText}
+        initialValues={{ commentText: commentData.text }}
+        render={({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field name="commentText" component={Input} />
+            <Row>
+              <Button text="удалить" onClick={deleteComment} />
+              <Button text="сохранить изменения" onClick={handleSubmit} />
+            </Row>
+          </form>
+        )}
+      />
     </Row>
   );
 };

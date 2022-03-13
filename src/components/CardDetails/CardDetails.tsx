@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Form, Field } from 'react-final-form';
+
 import { ICard, IColumn } from '../../models';
 import { selectAuthor } from '../../store/ducks/author';
 import { updateCardList } from '../../store/ducks/card';
@@ -14,61 +16,49 @@ type CardDetailsPropsType = {
   columns: IColumn[];
 };
 
-const CardDetails: React.FC<CardDetailsPropsType> = ({ currentCard, columns }) => {
+const CardDetails: React.FC<CardDetailsPropsType> = ({ columns, currentCard }) => {
   const dispatch = useDispatch();
   const authorName = useSelector(selectAuthor);
   const comments = useSelector(selectComments);
-
   const columnTitle = columns.filter((el) => el.id === currentCard?.columnId)[0].title;
   const commentsByCurrentCard = comments.filter((el) => el.cardId === currentCard?.id);
-  const [cardTitle, setCardTitle] = useState(currentCard?.title || '-');
-  const [cardDesc, setCardDesc] = useState(currentCard?.desc || '');
-  const [newCommentText, setNewCommentText] = useState('');
 
-  const handleCardTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCardTitle(e.target.value);
+  type CardTitleValuesType = {
+    cardTitle: string;
   };
-
-  const handleCardDesc = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCardDesc(e.target.value);
-  };
-
-  const handleNewCommentText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewCommentText(e.target.value);
-  };
-
-  const saveCardTitle = () => {
-    if (!cardTitle) {
-      setCardTitle(currentCard?.title || '');
-      return;
-    }
-
-    if (currentCard !== null) {
+  const saveCardTitle = (values: CardTitleValuesType) => {
+    if (currentCard !== null && values.cardTitle) {
       const updatedCard = { ...currentCard };
-      updatedCard.title = cardTitle;
+      updatedCard.title = values.cardTitle;
+      dispatch(updateCardList({ card: updatedCard }));
+    }
+  };
+
+  type CardDescValuesType = {
+    cardDesc: string;
+  };
+  const saveCardDesc = (values: CardDescValuesType) => {
+    if (currentCard !== null && values.cardDesc) {
+      const updatedCard = { ...currentCard };
+      updatedCard.desc = values.cardDesc;
 
       dispatch(updateCardList({ card: updatedCard }));
     }
   };
 
-  const saveCardDesc = () => {
-    if (currentCard !== null) {
-      const updatedCard = { ...currentCard };
-      updatedCard.desc = cardDesc;
-
-      dispatch(updateCardList({ card: updatedCard }));
-    }
+  type NewCommentTextValuesType = {
+    newCommentText: string;
   };
 
-  const addComment = () => {
+  const addComment = (values: NewCommentTextValuesType) => {
     const newComment = {
       id: Date.now(),
       cardId: currentCard?.id || 0,
-      text: newCommentText,
+      text: values.newCommentText,
     };
 
     dispatch(addCommentToCommentList({ comment: newComment }));
-    setNewCommentText('');
+    values.newCommentText = '';
   };
 
   return (
@@ -81,22 +71,39 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({ currentCard, columns }) =
       </Row>
       <Row>
         <SubTitle>Название карточки</SubTitle>
-        <Input value={cardTitle} onChange={(e) => handleCardTitle(e)} onBlur={saveCardTitle} />
+        <Form
+          onSubmit={saveCardTitle}
+          initialValues={{ cardTitle: currentCard?.title }}
+          render={({ handleSubmit }) => (
+            <Field name="cardTitle" component={Input} onBlur={handleSubmit} />
+          )}
+        />
       </Row>
       <Row>
         <SubTitle>описание карточки</SubTitle>
-        <Input value={cardDesc} onChange={(e) => handleCardDesc(e)} onBlur={saveCardDesc} />
+        <Form
+          onSubmit={saveCardDesc}
+          initialValues={{ cardDesc: currentCard?.desc }}
+          render={({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Field name="cardDesc" component={Input} onBlur={handleSubmit} />
+            </form>
+          )}
+        />
       </Row>
       <Row>
         <SubTitle>{`комментарии (${commentsByCurrentCard.length})`}</SubTitle>
-        <Input
-          value={newCommentText}
-          onChange={(e) => handleNewCommentText(e)}
-          placeholder="напишите комментарий"
+        <Form
+          onSubmit={addComment}
+          render={({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Field name="newCommentText" component={Input} placeholder="добавьте комментарий" />
+              <BtnWrap>
+                <ButtonOutlined text="добавить" onClick={handleSubmit} />
+              </BtnWrap>
+            </form>
+          )}
         />
-        <BtnWrap>
-          <ButtonOutlined text="добавить" onClick={addComment} />
-        </BtnWrap>
       </Row>
       <Row>
         {commentsByCurrentCard.map((el) => {

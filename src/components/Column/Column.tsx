@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsTrashFill } from 'react-icons/bs';
-import { ICard, IColumn, IComment } from '../../models';
+import { Form, Field } from 'react-final-form';
+
+import { ICard, IColumn } from '../../models';
 import { Button } from '../../UIcomponents/Button';
 import { Input } from '../../UIcomponents/Input';
-
 import { Row, Container, CardItem, DeleteBtn, CommentCount } from './style';
 import { updateColumnList } from '../../store/ducks/column';
 import { addCardToCardList, deleteCardFromCardList, selectCards } from '../../store/ducks/card';
@@ -17,54 +18,66 @@ type ColumnPropsType = {
 
 const Column: React.FC<ColumnPropsType> = ({ columnData, selectCurrentCard }) => {
   const dispatch = useDispatch();
-  const [columnTitle, setColumnTitle] = useState(columnData.title);
-  const [cardTitle, setCardTitle] = useState('');
-
   const cards = useSelector(selectCards);
   const comments = useSelector(selectComments);
-
-  const handleColumnsTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setColumnTitle(e.target.value);
-  };
-
-  const handleCardsTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCardTitle(e.target.value);
-  };
-
-  const saveColumnsTitle = () => {
-    if (!columnTitle) {
-      setColumnTitle(columnData.title);
-      return;
-    }
-    const updatedColumn = { ...columnData, title: columnTitle };
-    dispatch(updateColumnList({ column: updatedColumn }));
-  };
-
-  const addNewCard = () => {
-    if (!cardTitle) return;
-    const newCard = {
-      id: Date.now(),
-      columnId: columnData.id,
-      title: cardTitle,
-    };
-
-    dispatch(addCardToCardList({ card: newCard }));
-    setCardTitle('');
-  };
 
   const deleteCard = (event: React.MouseEvent<HTMLElement>, cardId: number) => {
     dispatch(deleteCardFromCardList({ cardId: cardId }));
     event.stopPropagation();
   };
 
+  type ColumnTitleValuesType = {
+    columnTitle: string;
+  };
+  const saveColumnsTitle = (values: ColumnTitleValuesType) => {
+    if (values.columnTitle) {
+      const updatedColumn = { ...columnData, title: values.columnTitle };
+      dispatch(updateColumnList({ column: updatedColumn }));
+    } else {
+      values.columnTitle = columnData.title;
+    }
+  };
+
+  type CardTitleValuesType = {
+    cardTitle: string;
+  };
+
+  const addNewCard = (values: CardTitleValuesType) => {
+    if (values.cardTitle) {
+      const newCard = {
+        id: Date.now(),
+        columnId: columnData.id,
+        title: values.cardTitle,
+      };
+
+      dispatch(addCardToCardList({ card: newCard }));
+      values.cardTitle = '';
+    }
+  };
+
   return (
     <Container>
       <Row>
-        <Input value={columnTitle} onChange={handleColumnsTitle} onBlur={saveColumnsTitle} />
+        <Form
+          onSubmit={saveColumnsTitle}
+          initialValues={{ columnTitle: columnData.title }}
+          render={({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Field name="columnTitle" component={Input} onBlur={handleSubmit} />
+            </form>
+          )}
+        />
       </Row>
       <Row>
-        <Input value={cardTitle} onChange={handleCardsTitle} />
-        <Button text="Добавить карточку" fullWidth={true} onClick={addNewCard} />
+        <Form
+          onSubmit={addNewCard}
+          render={({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Field name="cardTitle" component={Input} />
+              <Button text="Добавить карточку" fullWidth={true} onClick={handleSubmit} />
+            </form>
+          )}
+        />
       </Row>
       <Row>
         {cards?.length

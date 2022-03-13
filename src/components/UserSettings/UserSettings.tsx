@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
+import { Form, Field } from 'react-final-form';
+
 import { setAuthorName } from '../../store/ducks/author';
 import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
 import { Input } from '../../UIcomponents/Input';
@@ -10,22 +12,29 @@ type UserSettingsPropsType = {
 
 const UserSettings: React.FC<UserSettingsPropsType> = ({ handleCloseModal }) => {
   const dispatch = useDispatch();
-  const [userName, setUserName] = useState('');
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(e.target.value);
+
+  type AuthorNameValuesType = {
+    authorName: string;
   };
 
-  const saveAuthorName = () => {
-    if (userName) {
-      dispatch(setAuthorName({ authorName: userName }));
+  const saveAuthorName = (values: AuthorNameValuesType) => {
+    if (values.authorName) {
+      dispatch(setAuthorName({ authorName: values.authorName }));
       handleCloseModal();
     }
   };
 
   return (
     <>
-      <Input placeholder="введите имя" value={userName} onChange={handleInput} fullWidth={true} />
-      <ButtonOutlined onClick={saveAuthorName} text="сохранить" m="10px" />
+      <Form
+        onSubmit={saveAuthorName}
+        render={({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field name="authorName" component={Input} placeholder="введите имя" />
+            <ButtonOutlined text="сохранить" onClick={handleSubmit} m="10px" />
+          </form>
+        )}
+      />
     </>
   );
 };

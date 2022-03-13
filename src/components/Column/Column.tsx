@@ -10,6 +10,7 @@ import { Row, Container, CardItem, DeleteBtn, CommentCount } from './style';
 import { updateColumnList } from '../../store/ducks/column';
 import { addCardToCardList, deleteCardFromCardList, selectCards } from '../../store/ducks/card';
 import { selectComments } from '../../store/ducks/comment';
+import { CardTitleValuesType, ColumnTitleValuesType } from './types';
 
 type ColumnPropsType = {
   columnData: IColumn;
@@ -26,9 +27,6 @@ const Column: React.FC<ColumnPropsType> = ({ columnData, selectCurrentCard }) =>
     event.stopPropagation();
   };
 
-  type ColumnTitleValuesType = {
-    columnTitle: string;
-  };
   const saveColumnsTitle = (values: ColumnTitleValuesType) => {
     if (values.columnTitle) {
       const updatedColumn = { ...columnData, title: values.columnTitle };
@@ -36,10 +34,6 @@ const Column: React.FC<ColumnPropsType> = ({ columnData, selectCurrentCard }) =>
     } else {
       values.columnTitle = columnData.title;
     }
-  };
-
-  type CardTitleValuesType = {
-    cardTitle: string;
   };
 
   const addNewCard = (values: CardTitleValuesType) => {

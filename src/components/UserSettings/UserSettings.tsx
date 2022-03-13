@@ -5,17 +5,10 @@ import { Form, Field } from 'react-final-form';
 import { setAuthorName } from '../../store/ducks/author';
 import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
 import { Input } from '../../UIcomponents/Input';
-
-type UserSettingsPropsType = {
-  handleCloseModal: () => void;
-};
+import { AuthorNameValuesType, UserSettingsPropsType } from './types';
 
 const UserSettings: React.FC<UserSettingsPropsType> = ({ handleCloseModal }) => {
   const dispatch = useDispatch();
-
-  type AuthorNameValuesType = {
-    authorName: string;
-  };
 
   const saveAuthorName = (values: AuthorNameValuesType) => {
     if (values.authorName) {

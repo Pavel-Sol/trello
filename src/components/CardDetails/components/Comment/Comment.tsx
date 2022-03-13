@@ -2,24 +2,17 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
 
-import { IComment } from '../../../../models';
 import { selectAuthor } from '../../../../store/ducks/author';
 import { deleteCommentFromCommentList, updateCommentList } from '../../../../store/ducks/comment';
 import { Button } from '../../../../UIcomponents/Button';
 import { Input } from '../../../../UIcomponents/Input';
 import { Row, SmallText } from '../../style';
-
-type CommentPropsType = {
-  commentData: IComment;
-};
+import { CommentPropsType, CommentTextValuesType } from '../../types';
 
 const Comment: React.FC<CommentPropsType> = ({ commentData }) => {
   const dispatch = useDispatch();
   const authorName = useSelector(selectAuthor);
 
-  type CommentTextValuesType = {
-    commentText: string;
-  };
   const saveCommentText = (values: CommentTextValuesType) => {
     if (values.commentText) {
       const updatedComment = { ...commentData, text: values.commentText };

@@ -15,10 +15,10 @@ const cardSlice = createSlice({
   name: 'card',
   initialState,
   reducers: {
-    addCardToCardList(state, action: PayloadAction<{ card: ICard }>) {
+    addCard(state, action: PayloadAction<{ card: ICard }>) {
       state.cards = [action.payload.card, ...state.cards];
     },
-    deleteCardFromCardList(state, action: PayloadAction<{ cardId: number }>) {
+    deleteCard(state, action: PayloadAction<{ cardId: number }>) {
       state.cards = state.cards.filter((el) => el.id !== action.payload.cardId);
     },
     updateCardList(state, action: PayloadAction<{ card: ICard }>) {
@@ -33,5 +33,5 @@ const cardSlice = createSlice({
   },
 });
 
-export const { addCardToCardList, deleteCardFromCardList, updateCardList } = cardSlice.actions;
+export const { addCard, deleteCard, updateCardList } = cardSlice.actions;
 export default cardSlice.reducer;

@@ -10,7 +10,7 @@ import { AuthorNameValuesType, UserSettingsPropsType } from './types';
 const UserSettings: React.FC<UserSettingsPropsType> = ({ handleCloseModal }) => {
   const dispatch = useDispatch();
 
-  const saveAuthorName = (values: AuthorNameValuesType) => {
+  const handleSubmitAuthor = (values: AuthorNameValuesType) => {
     if (values.authorName) {
       dispatch(setAuthorName({ authorName: values.authorName }));
       handleCloseModal();
@@ -20,7 +20,7 @@ const UserSettings: React.FC<UserSettingsPropsType> = ({ handleCloseModal }) => 
   return (
     <>
       <Form
-        onSubmit={saveAuthorName}
+        onSubmit={handleSubmitAuthor}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <Field name="authorName" component={Input} placeholder="введите имя" />

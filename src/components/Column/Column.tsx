@@ -8,7 +8,7 @@ import { Button } from '../../UIcomponents/Button';
 import { Input } from '../../UIcomponents/Input';
 import { Row, Container, CardItem, DeleteBtn, CommentCount } from './style';
 import { updateColumnList } from '../../store/ducks/column';
-import { addCardToCardList, deleteCardFromCardList, selectCards } from '../../store/ducks/card';
+import { addCard, deleteCard, selectCards } from '../../store/ducks/card';
 import { selectComments } from '../../store/ducks/comment';
 import { CardTitleValuesType, ColumnTitleValuesType } from './types';
 
@@ -22,12 +22,12 @@ const Column: React.FC<ColumnPropsType> = ({ columnData, selectCurrentCard }) =>
   const cards = useSelector(selectCards);
   const comments = useSelector(selectComments);
 
-  const deleteCard = (event: React.MouseEvent<HTMLElement>, cardId: number) => {
-    dispatch(deleteCardFromCardList({ cardId: cardId }));
+  const handleDeleteCard = (event: React.MouseEvent<HTMLElement>, cardId: number) => {
+    dispatch(deleteCard({ cardId: cardId }));
     event.stopPropagation();
   };
 
-  const saveColumnsTitle = (values: ColumnTitleValuesType) => {
+  const handleSubmitColumn = (values: ColumnTitleValuesType) => {
     if (values.columnTitle) {
       const updatedColumn = { ...columnData, title: values.columnTitle };
       dispatch(updateColumnList({ column: updatedColumn }));
@@ -36,7 +36,7 @@ const Column: React.FC<ColumnPropsType> = ({ columnData, selectCurrentCard }) =>
     }
   };
 
-  const addNewCard = (values: CardTitleValuesType) => {
+  const handleSubmitCard = (values: CardTitleValuesType) => {
     if (values.cardTitle) {
       const newCard = {
         id: Date.now(),
@@ -44,7 +44,7 @@ const Column: React.FC<ColumnPropsType> = ({ columnData, selectCurrentCard }) =>
         title: values.cardTitle,
       };
 
-      dispatch(addCardToCardList({ card: newCard }));
+      dispatch(addCard({ card: newCard }));
       values.cardTitle = '';
     }
   };
@@ -53,7 +53,7 @@ const Column: React.FC<ColumnPropsType> = ({ columnData, selectCurrentCard }) =>
     <Container>
       <Row>
         <Form
-          onSubmit={saveColumnsTitle}
+          onSubmit={handleSubmitColumn}
           initialValues={{ columnTitle: columnData.title }}
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
@@ -64,7 +64,7 @@ const Column: React.FC<ColumnPropsType> = ({ columnData, selectCurrentCard }) =>
       </Row>
       <Row>
         <Form
-          onSubmit={addNewCard}
+          onSubmit={handleSubmitCard}
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <Field name="cardTitle" component={Input} />
@@ -80,7 +80,9 @@ const Column: React.FC<ColumnPropsType> = ({ columnData, selectCurrentCard }) =>
               .map((elem) => (
                 <CardItem key={elem.id} onClick={() => selectCurrentCard(elem)}>
                   <DeleteBtn
-                    onClick={(event: React.MouseEvent<HTMLElement>) => deleteCard(event, elem.id)}>
+                    onClick={(event: React.MouseEvent<HTMLElement>) =>
+                      handleDeleteCard(event, elem.id)
+                    }>
                     <BsTrashFill />
                   </DeleteBtn>
                   <span>{elem.title}</span>

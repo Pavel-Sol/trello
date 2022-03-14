@@ -4,7 +4,7 @@ import { Form, Field } from 'react-final-form';
 
 import { selectAuthor } from '../../store/ducks/author';
 import { updateCardList } from '../../store/ducks/card';
-import { addCommentToCommentList, selectComments } from '../../store/ducks/comment';
+import { addComment, selectComments } from '../../store/ducks/comment';
 import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
 import { Input } from '../../UIcomponents/Input';
 import { Comment } from './components/Comment';
@@ -18,7 +18,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({ columns, currentCard }) =
   const columnTitle = columns.filter((el) => el.id === currentCard?.columnId)[0].title;
   const commentsByCurrentCard = comments.filter((el) => el.cardId === currentCard?.id);
 
-  const saveCardTitle = (values: CardTitleValuesType) => {
+  const handleSubmitCardTitle = (values: CardTitleValuesType) => {
     if (currentCard !== null && values.cardTitle) {
       const updatedCard = { ...currentCard };
       updatedCard.title = values.cardTitle;
@@ -26,7 +26,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({ columns, currentCard }) =
     }
   };
 
-  const saveCardDesc = (values: CardDescValuesType) => {
+  const handleSubmitCardDesc = (values: CardDescValuesType) => {
     if (currentCard !== null && values.cardDesc) {
       const updatedCard = { ...currentCard };
       updatedCard.desc = values.cardDesc;
@@ -39,14 +39,14 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({ columns, currentCard }) =
     newCommentText: string;
   };
 
-  const addComment = (values: NewCommentTextValuesType) => {
+  const handleSubmitComment = (values: NewCommentTextValuesType) => {
     const newComment = {
       id: Date.now(),
       cardId: currentCard?.id || 0,
       text: values.newCommentText,
     };
 
-    dispatch(addCommentToCommentList({ comment: newComment }));
+    dispatch(addComment({ comment: newComment }));
     values.newCommentText = '';
   };
 
@@ -61,7 +61,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({ columns, currentCard }) =
       <Row>
         <SubTitle>Название карточки</SubTitle>
         <Form
-          onSubmit={saveCardTitle}
+          onSubmit={handleSubmitCardTitle}
           initialValues={{ cardTitle: currentCard?.title }}
           render={({ handleSubmit }) => (
             <Field name="cardTitle" component={Input} onBlur={handleSubmit} />
@@ -71,7 +71,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({ columns, currentCard }) =
       <Row>
         <SubTitle>описание карточки</SubTitle>
         <Form
-          onSubmit={saveCardDesc}
+          onSubmit={handleSubmitCardDesc}
           initialValues={{ cardDesc: currentCard?.desc }}
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
@@ -83,7 +83,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({ columns, currentCard }) =
       <Row>
         <SubTitle>{`комментарии (${commentsByCurrentCard.length})`}</SubTitle>
         <Form
-          onSubmit={addComment}
+          onSubmit={handleSubmitComment}
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <Field name="newCommentText" component={Input} placeholder="добавьте комментарий" />

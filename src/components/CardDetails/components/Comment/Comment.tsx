@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
 
 import { selectAuthor } from '../../../../store/ducks/author';
-import { deleteCommentFromCommentList, updateCommentList } from '../../../../store/ducks/comment';
+import { deleteComment, updateCommentList } from '../../../../store/ducks/comment';
 import { Button } from '../../../../UIcomponents/Button';
 import { Input } from '../../../../UIcomponents/Input';
 import { Row, SmallText } from '../../style';
@@ -13,7 +13,7 @@ const Comment: React.FC<CommentPropsType> = ({ commentData }) => {
   const dispatch = useDispatch();
   const authorName = useSelector(selectAuthor);
 
-  const saveCommentText = (values: CommentTextValuesType) => {
+  const handleSubmitComment = (values: CommentTextValuesType) => {
     if (values.commentText) {
       const updatedComment = { ...commentData, text: values.commentText };
       dispatch(updateCommentList({ comment: updatedComment }));
@@ -22,21 +22,21 @@ const Comment: React.FC<CommentPropsType> = ({ commentData }) => {
     }
   };
 
-  const deleteComment = () => {
-    dispatch(deleteCommentFromCommentList({ commentId: commentData.id }));
+  const handleDeleteComment = () => {
+    dispatch(deleteComment({ commentId: commentData.id }));
   };
 
   return (
     <Row>
       <SmallText>{authorName}</SmallText>
       <Form
-        onSubmit={saveCommentText}
+        onSubmit={handleSubmitComment}
         initialValues={{ commentText: commentData.text }}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <Field name="commentText" component={Input} />
             <Row>
-              <Button text="удалить" onClick={deleteComment} />
+              <Button text="удалить" onClick={handleDeleteComment} />
               <Button text="сохранить изменения" onClick={handleSubmit} />
             </Row>
           </form>

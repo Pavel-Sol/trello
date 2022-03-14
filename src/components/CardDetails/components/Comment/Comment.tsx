@@ -39,9 +39,7 @@ const Comment: React.FC<CommentPropsType> = ({ commentData }) => {
               <Button onClick={handleDeleteComment} mode="secondary">
                 удалить
               </Button>
-              <Button onClick={handleSubmit} mode="secondary">
-                сохранить изменения
-              </Button>
+              <Button mode="secondary">сохранить изменения</Button>
             </BtnGroup>
           </form>
         )}

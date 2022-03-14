@@ -67,9 +67,7 @@ const Column: React.FC<ColumnPropsType> = ({ columnData, selectCurrentCard }) =>
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <Field name="cardTitle" component={Input} />
-              <ButtonStyled mode="secondary" onClick={handleSubmit}>
-                Добавить карточку
-              </ButtonStyled>
+              <ButtonStyled mode="secondary">Добавить карточку</ButtonStyled>
             </form>
           )}
         />

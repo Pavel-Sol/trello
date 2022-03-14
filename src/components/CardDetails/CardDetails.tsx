@@ -63,7 +63,9 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({ columns, currentCard }) =
           onSubmit={handleSubmitCardTitle}
           initialValues={{ cardTitle: currentCard?.title }}
           render={({ handleSubmit }) => (
-            <Field name="cardTitle" component={Input} onBlur={handleSubmit} />
+            <form onSubmit={handleSubmit}>
+              <Field name="cardTitle" component={Input} onBlur={handleSubmit} />
+            </form>
           )}
         />
       </Row>
@@ -86,9 +88,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({ columns, currentCard }) =
           render={({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>
               <Field name="newCommentText" component={Input} placeholder="добавьте комментарий" />
-              <ButtonStyled onClick={handleSubmit} disabled={!values.newCommentText}>
-                добавить
-              </ButtonStyled>
+              <ButtonStyled disabled={!values.newCommentText}>добавить</ButtonStyled>
             </form>
           )}
         />

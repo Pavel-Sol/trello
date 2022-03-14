@@ -84,11 +84,15 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({ columns, currentCard }) =
         <SubTitle>{`комментарии (${commentsByCurrentCard.length})`}</SubTitle>
         <Form
           onSubmit={handleSubmitComment}
-          render={({ handleSubmit }) => (
+          render={({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>
               <Field name="newCommentText" component={Input} placeholder="добавьте комментарий" />
               <BtnWrap>
-                <ButtonOutlined text="добавить" onClick={handleSubmit} />
+                <ButtonOutlined
+                  text="добавить"
+                  onClick={handleSubmit}
+                  disabled={!values.newCommentText}
+                />
               </BtnWrap>
             </form>
           )}

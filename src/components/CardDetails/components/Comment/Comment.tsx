@@ -6,7 +6,7 @@ import { selectAuthor } from '../../../../store/ducks/author';
 import { deleteComment, updateCommentList } from '../../../../store/ducks/comment';
 import { Button } from '../../../../UIcomponents/Button';
 import { Input } from '../../../../UIcomponents/Input';
-import { Row, SmallText } from '../../style';
+import { BtnGroup, Row, SmallText } from '../../style';
 import { CommentPropsType, CommentTextValuesType } from '../../types';
 
 const Comment: React.FC<CommentPropsType> = ({ commentData }) => {
@@ -35,10 +35,14 @@ const Comment: React.FC<CommentPropsType> = ({ commentData }) => {
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <Field name="commentText" component={Input} />
-            <Row>
-              <Button text="удалить" onClick={handleDeleteComment} />
-              <Button text="сохранить изменения" onClick={handleSubmit} />
-            </Row>
+            <BtnGroup>
+              <Button onClick={handleDeleteComment} mode="secondary">
+                удалить
+              </Button>
+              <Button onClick={handleSubmit} mode="secondary">
+                сохранить изменения
+              </Button>
+            </BtnGroup>
           </form>
         )}
       />

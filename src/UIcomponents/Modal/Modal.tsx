@@ -37,7 +37,7 @@ const Modal: React.FC<ModalPropsType> = ({
   return (
     <ModalPopup onClick={handleCloseModal}>
       <ModalWrapper onClick={(e) => e.stopPropagation()}>
-        <BtnClose onClick={handleCloseModal}>
+        <BtnClose onClick={handleCloseModal} mode="secondary">
           <GrClose />
         </BtnClose>
         <ModalContent>{children}</ModalContent>

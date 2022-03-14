@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from '../../UIcomponents/Button';
 
 export const Container = styled.div`
   width: 272px;
@@ -29,26 +30,24 @@ export const CardItem = styled.div`
   cursor: pointer;
 `;
 
-export const DeleteBtn = styled.div`
-  cursor: pointer;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background-color: rgb(238, 243, 247);
+export const DeleteBtn = styled(Button)`
   position: absolute;
-  top: 5px;
-  right: 5px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  top: 6px;
+  right: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: rgb(200, 208, 214);
-  }
 `;
 
 export const CommentCount = styled.p`
   font-size: 12px;
   margin-top: 10px;
+`;
+
+export const ButtonStyled = styled(Button)`
+  margin-top: 12px;
+  width: 100%;
 `;

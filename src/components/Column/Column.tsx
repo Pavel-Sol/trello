@@ -4,9 +4,8 @@ import { BsTrashFill } from 'react-icons/bs';
 import { Form, Field } from 'react-final-form';
 
 import { ICard, IColumn } from '../../models';
-import { Button } from '../../UIcomponents/Button';
 import { Input } from '../../UIcomponents/Input';
-import { Row, Container, CardItem, DeleteBtn, CommentCount } from './style';
+import { Row, Container, CardItem, DeleteBtn, CommentCount, ButtonStyled } from './style';
 import { updateColumnList } from '../../store/ducks/column';
 import { addCard, deleteCard, selectCards } from '../../store/ducks/card';
 import { selectComments } from '../../store/ducks/comment';
@@ -68,7 +67,9 @@ const Column: React.FC<ColumnPropsType> = ({ columnData, selectCurrentCard }) =>
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <Field name="cardTitle" component={Input} />
-              <Button text="Добавить карточку" fullWidth={true} onClick={handleSubmit} />
+              <ButtonStyled mode="secondary" onClick={handleSubmit}>
+                Добавить карточку
+              </ButtonStyled>
             </form>
           )}
         />
@@ -80,11 +81,13 @@ const Column: React.FC<ColumnPropsType> = ({ columnData, selectCurrentCard }) =>
               .map((elem) => (
                 <CardItem key={elem.id} onClick={() => selectCurrentCard(elem)}>
                   <DeleteBtn
+                    mode="secondary"
                     onClick={(event: React.MouseEvent<HTMLElement>) =>
                       handleDeleteCard(event, elem.id)
                     }>
                     <BsTrashFill />
                   </DeleteBtn>
+
                   <span>{elem.title}</span>
                   <CommentCount>
                     {comments.filter((comment) => comment.cardId === elem.id).length}

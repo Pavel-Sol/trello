@@ -5,10 +5,9 @@ import { Form, Field } from 'react-final-form';
 import { selectAuthor } from '../../store/ducks/author';
 import { updateCardList } from '../../store/ducks/card';
 import { addComment, selectComments } from '../../store/ducks/comment';
-import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
 import { Input } from '../../UIcomponents/Input';
 import { Comment } from './components/Comment';
-import { BtnWrap, Container, Row, SubTitle } from './style';
+import { ButtonStyled, Container, Row, SubTitle } from './style';
 import { CardDescValuesType, CardDetailsPropsType, CardTitleValuesType } from './types';
 
 const CardDetails: React.FC<CardDetailsPropsType> = ({ columns, currentCard }) => {
@@ -87,13 +86,9 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({ columns, currentCard }) =
           render={({ handleSubmit, values }) => (
             <form onSubmit={handleSubmit}>
               <Field name="newCommentText" component={Input} placeholder="добавьте комментарий" />
-              <BtnWrap>
-                <ButtonOutlined
-                  text="добавить"
-                  onClick={handleSubmit}
-                  disabled={!values.newCommentText}
-                />
-              </BtnWrap>
+              <ButtonStyled onClick={handleSubmit} disabled={!values.newCommentText}>
+                добавить
+              </ButtonStyled>
             </form>
           )}
         />

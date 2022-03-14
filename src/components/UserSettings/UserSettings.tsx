@@ -3,9 +3,10 @@ import { useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
 
 import { setAuthorName } from '../../store/ducks/author';
-import { ButtonOutlined } from '../../UIcomponents/ButtonOutlined';
+// import { Button } from '../../UIcomponents/Button';
 import { Input } from '../../UIcomponents/Input';
 import { AuthorNameValuesType, UserSettingsPropsType } from './types';
+import { ButtonStyled } from './style';
 
 const UserSettings: React.FC<UserSettingsPropsType> = ({ handleCloseModal }) => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const UserSettings: React.FC<UserSettingsPropsType> = ({ handleCloseModal }) => 
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <Field name="authorName" component={Input} placeholder="введите имя" />
-            <ButtonOutlined text="сохранить" onClick={handleSubmit} m="10px" />
+            <ButtonStyled onClick={handleSubmit}>сохранить</ButtonStyled>
           </form>
         )}
       />

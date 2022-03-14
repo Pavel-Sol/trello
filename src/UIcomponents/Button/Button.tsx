@@ -2,16 +2,23 @@ import React from 'react';
 import { ButtonStyled } from './style';
 
 type ButtonPropsType = {
-  onClick?: () => void;
-  text: string;
-  fullWidth?: boolean;
-  m?: string;
+  children: React.ReactNode;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+  disabled?: boolean;
+  className?: string;
+  mode?: 'primary' | 'secondary' | undefined;
 };
 
-const Button: React.FC<ButtonPropsType> = ({ onClick, text, fullWidth, m }: ButtonPropsType) => {
+const Button: React.FC<ButtonPropsType> = ({
+  onClick,
+  children,
+  mode,
+  disabled,
+  className,
+}: ButtonPropsType) => {
   return (
-    <ButtonStyled onClick={onClick} fullWidth={fullWidth} m={m}>
-      {text}
+    <ButtonStyled onClick={onClick} mode={mode} disabled={disabled} className={className}>
+      {children}
     </ButtonStyled>
   );
 };

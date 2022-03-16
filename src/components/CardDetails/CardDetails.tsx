@@ -14,7 +14,7 @@ const CardDetails: React.FC<CardDetailsPropsType> = ({ columns, currentCard }) =
   const dispatch = useDispatch();
   const authorName = useSelector(selectAuthor);
   const comments = useSelector(selectComments);
-  const columnTitle = columns.filter((el) => el.id === currentCard?.columnId)[0].title;
+  const columnTitle = columns.find((el) => el.id === currentCard?.columnId)?.title;
   const commentsByCurrentCard = comments.filter((el) => el.cardId === currentCard?.id);
 
   const handleSubmitCardTitle = (values: CardTitleValuesType) => {
